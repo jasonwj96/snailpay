@@ -1,0 +1,85 @@
+<div
+  class="fixed flex items-center justify-between w-full bg-white/50 backdrop-blur-[15px] border border-[#dddddd] px-[300px] z-[100]"
+>
+  <img
+    class="w-[175px] h-fit p-[5px]"
+    ngSrc="/snailpay-logo-full.svg"
+    width="50"
+    height="50"
+    alt="Navbar logo"
+  />
+
+  <div class="absolute left-1/2 -translate-x-1/2 flex gap-6 items-center">
+    @for (item of navItems; track item.label) {
+      <div
+        class="relative flex items-center"
+        cdkOverlayOrigin
+        #origin="cdkOverlayOrigin"
+        (mouseenter)="onItemHover(item.label)"
+        (mouseleave)="onRegionLeave()"
+      >
+        <a
+          class="flex items-center gap-1 [font-family:var(--inter)] text-sm leading-5 py-5 px-1 no-underline text-inherit border-b-2 transition-colors duration-150 ease hover:text-black hover:border-black"
+          [class.text-black]="activeItem() === item.label"
+          [class.border-black]="activeItem() === item.label"
+          [class.border-transparent]="activeItem() !== item.label"
+          [routerLink]="item.href"
+        >
+          {{ item.label }}
+          <img
+            class="transition-transform duration-200 ease opacity-40"
+            [class.rotate-180]="activeItem() === item.label"
+            [class.opacity-100]="activeItem() === item.label"
+            ngSrc="/chevron-down.svg"
+            width="12"
+            height="12"
+            alt=""
+          />
+        </a>
+      </div>
+
+      <!-- Portal equivalent: renders into the CDK global overlay container in <body>,
+           same intent as createPortal(..., document.body) in the React version.
+           CDK handles the positioning itself, so no fixed/translateX needed here
+           (unlike the raw .dropdown class in your SCSS, which did that manually). -->
+      <ng-template
+        cdkConnectedOverlay
+        [cdkConnectedOverlayOrigin]="origin"
+        [cdkConnectedOverlayOpen]="activeItem() === item.label"
+        [cdkConnectedOverlayPositions]="dropdownPositions"
+        [cdkConnectedOverlayHasBackdrop]="false"
+      >
+        <div
+          class="min-w-[220px] bg-white/50 backdrop-blur-[15px] border border-[#dddddd] rounded-xl shadow-[0_8px_24px_rgba(0,0,0,0.08)] p-2 flex flex-col gap-0.5 z-[200] animate-[fadeDown_0.15s_ease]"
+          (mouseenter)="onDropdownHover()"
+          (mouseleave)="onRegionLeave()"
+        >
+          @for (link of item.dropdown; track link.href) {
+            <a
+              class="flex flex-col gap-0.5 py-2.5 px-3 rounded-lg no-underline transition-colors duration-150 ease hover:bg-[#f5f5f5]"
+              [routerLink]="link.href"
+            >
+              <span class="text-sm font-medium text-[#111] [font-family:var(--inter)]">{{ link.label }}</span>
+              <span class="text-xs text-[#888] [font-family:var(--inter)]">{{ link.description }}</span>
+            </a>
+          }
+        </div>
+      </ng-template>
+    }
+  </div>
+
+  <div class="flex items-center gap-3 m-2.5">
+    <a
+      class="text-sm leading-5 [font-family:var(--inter)] py-1 px-5 border border-[#c9c9c9] rounded-lg no-underline text-inherit"
+      routerLink="/login"
+    >
+      <p>Log In</p>
+    </a>
+    <a
+      class="text-sm leading-5 [font-family:var(--inter)] py-1 px-5 border border-[#c9c9c9] rounded-lg no-underline bg-black text-white"
+      routerLink="/register"
+    >
+      <p>Sign Up</p>
+    </a>
+  </div>
+</div>

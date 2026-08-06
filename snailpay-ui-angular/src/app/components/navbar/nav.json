@@ -1,0 +1,92 @@
+[
+  {
+    "label": "Loans",
+    "href": "/loans",
+    "dropdown": [
+      {
+        "label": "Personal Loans",
+        "href": "/loans/personal",
+        "description": "Borrow for any purpose"
+      },
+      {
+        "label": "BNPL",
+        "href": "/loans/bnpl",
+        "description": "Buy now, pay later"
+      },
+      {
+        "label": "Auto Loans",
+        "href": "/loans/auto",
+        "description": "Finance your vehicle"
+      }
+    ]
+  },
+  {
+    "label": "Cards",
+    "href": "/credit-cards",
+    "dropdown": [
+      {
+        "label": "Credit Cards",
+        "href": "/credit-cards",
+        "description": "Rewards and cashback"
+      },
+      {
+        "label": "Prepaid Cards",
+        "href": "/credit-cards/prepaid",
+        "description": "Spend what you load"
+      },
+      {
+        "label": "Virtual Cards",
+        "href": "/credit-cards/virtual",
+        "description": "Secure online payments"
+      }
+    ]
+  },
+  {
+    "label": "Accounts",
+    "href": "/saving-accounts",
+    "dropdown": [
+      {
+        "label": "Savings",
+        "href": "/saving-accounts/savings",
+        "description": "Earn interest on deposits"
+      },
+      {
+        "label": "Checking",
+        "href": "/saving-accounts/checking",
+        "description": "Everyday spending account"
+      }
+    ]
+  },
+  {
+    "label": "Investments",
+    "href": "/investments",
+    "dropdown": [
+      {
+        "label": "Stocks",
+        "href": "/investments/stocks",
+        "description": "Invest in companies"
+      },
+      {
+        "label": "ETFs",
+        "href": "/investments/etfs",
+        "description": "Diversified portfolios"
+      }
+    ]
+  },
+  {
+    "label": "Insurance",
+    "href": "/insurance",
+    "dropdown": [
+      {
+        "label": "Life Insurance",
+        "href": "/insurance/life",
+        "description": "Protect your family"
+      },
+      {
+        "label": "Health Insurance",
+        "href": "/insurance/health",
+        "description": "Cover medical costs"
+      }
+    ]
+  }
+]
