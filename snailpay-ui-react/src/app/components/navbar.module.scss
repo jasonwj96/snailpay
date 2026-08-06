@@ -1,0 +1,145 @@
+.navbarContainer {
+  position: fixed;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  background: rgba(255, 255, 255, 0.5);
+  backdrop-filter: blur(15px);
+  border: 1px solid #dddddd;
+  padding: 0 300px;
+  z-index: 100;
+}
+
+.navbarLinks {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  gap: 24px;
+  align-items: center;
+}
+
+.navbarLogo {
+  width: 175px;
+  height: fit-content;
+  padding: 5px;
+}
+
+.navItem {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.navbarLink {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  font-family: var(--inter);
+  font-size: 0.875rem;
+  line-height: 1.25rem;
+  padding: 20px 4px;
+  text-decoration: none;
+  color: inherit;
+  border-bottom: 2px solid transparent;
+  transition: color 0.15s ease, border-color 0.15s ease;
+
+  &:hover,
+  &.navbarLinkActive {
+    color: #000;
+    border-bottom-color: #000;
+  }
+}
+
+.chevron {
+  transition: transform 0.2s ease;
+  opacity: 0.4;
+}
+
+.chevronOpen {
+  transform: rotate(180deg);
+  opacity: 1;
+}
+
+.dropdown {
+  position: fixed;
+  transform: translateX(-50%);
+  min-width: 220px;
+  background: rgba(255, 255, 255, 0.5);
+  backdrop-filter: blur(15px);
+  border: 1px solid #dddddd;
+  border-radius: 12px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
+  padding: 8px;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  animation: fadeDown 0.15s ease;
+  z-index: 200;
+}
+
+.dropdownItem {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  padding: 10px 12px;
+  border-radius: 8px;
+  text-decoration: none;
+  transition: background 0.15s ease;
+
+  &:hover {
+    background: #f5f5f5;
+  }
+}
+
+.dropdownLabel {
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: #111;
+  font-family: var(--inter);
+}
+
+.dropdownDesc {
+  font-size: 0.75rem;
+  color: #888;
+  font-family: var(--inter);
+}
+
+
+.actionButtons {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin: 10px;
+
+  .btnLogIn,
+  .btnSignUp {
+    font-size: 0.875rem;
+    line-height: 1.25rem;
+    font-family: var(--inter);
+    padding: 5px 20px;
+    border: 1px solid #c9c9c9;
+    border-radius: 8px;
+    text-decoration: none;
+    color: inherit;
+  }
+
+  .btnSignUp {
+    background: #000;
+    color: #fff;
+  }
+}
+
+
+@keyframes fadeDown {
+  from {
+    opacity: 0;
+    transform: translateX(-50%) translateY(-6px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateX(-50%) translateY(0);
+  }
+}

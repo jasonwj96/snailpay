@@ -1,0 +1,37 @@
+// Typography
+$font-primary: 'Inter', sans-serif;
+$font-size-base: 16px;
+
+// Colors
+$color-primary: #09a9e3;
+$color-primary-dark: #0a9cd1;
+$color-secondary: #000000;
+$color-secondary-dark: #3a3a3a;
+$color-danger: #ef4444;
+$color-success: #22c55e;
+
+// Neutral palette (light theme)
+$color-bg: #f5f5f5;
+$color-surface: #ffffff;
+$color-border: #e4e4e7;
+$color-text: #09090b;
+$color-text-muted: #71717a;
+
+// Spacing scale
+$space-1: 4px;
+$space-2: 8px;
+$space-3: 12px;
+$space-4: 16px;
+$space-6: 24px;
+$space-8: 32px;
+
+// Border radius
+$radius-sm: 6px;
+$radius-md: 10px;
+$radius-lg: 16px;
+
+// Breakpoints
+$bp-sm: 640px;
+$bp-md: 768px;
+$bp-lg: 1024px;
+$bp-xl: 1280px;

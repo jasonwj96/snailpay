@@ -1,0 +1,105 @@
+@use '@/app/styles/variables' as *;
+@use '@/app/styles/mixins' as *;
+
+.form {
+  @include flex(column, stretch, flex-start, $space-4);
+}
+
+.field {
+  @include flex(column, flex-start, flex-start, $space-1);
+}
+
+.labelRow {
+  @include flex(row, center, space-between);
+  width: 100%;
+}
+
+.label {
+  font-size: 13px;
+  font-weight: 500;
+  color: $color-text;
+}
+
+.forgot {
+  font-size: 12px;
+  color: $color-text-muted;
+  text-decoration: none;
+
+  &:hover {
+    color: $color-primary;
+  }
+}
+
+.input {
+  width: 100%;
+  padding: $space-2 $space-3;
+  background: $color-bg;
+  border: 1px solid $color-border;
+  border-radius: $radius-sm;
+  color: $color-text;
+  font-size: 14px;
+  outline: none;
+  transition: border-color 0.2s ease;
+
+  &::placeholder {
+    color: $color-text-muted;
+  }
+
+  &:focus {
+    border-color: $color-primary;
+  }
+}
+
+.submit {
+  width: 100%;
+  padding: $space-3;
+  background: $color-primary;
+  color: white;
+  border: none;
+  border-radius: $radius-sm;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background 0.2s ease;
+
+  &:hover {
+    background: $color-primary-dark;
+  }
+}
+
+.logo {
+  @include flex(row, center, center);
+  width: 100%;
+  height: 150px;
+}
+
+.header {
+  @include flex(column, flex-start, flex-start, $space-2);
+  margin-bottom: $space-6;
+}
+
+.title {
+  font-size: 22px;
+  font-weight: 600;
+  color: $color-text;
+}
+
+.subtitle {
+  font-size: 14px;
+  color: $color-text-muted;
+}
+
+.terms {
+  font-size: 12px;
+  color: $color-text-muted;
+  text-align: center;
+
+  a {
+    color: $color-primary;
+    text-decoration: none;
+
+    &:hover {
+      text-decoration: underline;
+    }
+  }
+}

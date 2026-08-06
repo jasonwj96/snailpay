@@ -1,0 +1,42 @@
+@use '@/app/styles/variables' as *;
+@use '@/app/styles/mixins' as *;
+
+.page {
+  @include flex(column, center, center);
+  min-height: 100vh;
+  background: $color-bg;
+}
+
+.card {
+  width: 100%;
+  max-width: 420px;
+  padding: $space-8;
+  background: $color-surface;
+  border: 1px solid $color-border;
+  border-radius: $radius-lg;
+}
+
+.header {
+  @include flex(column, flex-start, flex-start, $space-2);
+  margin-bottom: $space-6;
+}
+
+.title {
+  font-size: 22px;
+  font-weight: 600;
+  color: $color-text;
+}
+
+.subtitle {
+  font-size: 14px;
+  color: $color-text-muted;
+
+  a {
+    color: $color-primary;
+    text-decoration: none;
+
+    &:hover {
+      text-decoration: underline;
+    }
+  }
+}
