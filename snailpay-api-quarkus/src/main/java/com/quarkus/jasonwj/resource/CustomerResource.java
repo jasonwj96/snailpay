@@ -6,13 +6,13 @@ import jakarta.ws.rs.Path;
 import jakarta.ws.rs.Produces;
 import jakarta.ws.rs.core.MediaType;
 
-@Path("/accounts")
-public class AccountResource {
+@Path("/customers")
+public class CustomerResource {
 
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
-    public String createAccount() {
-        return "Created account";
+    public String createCustomer() {
+        return "Created customer";
     }
 }
