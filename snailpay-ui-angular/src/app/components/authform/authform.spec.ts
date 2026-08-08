@@ -1,17 +1,17 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { Loginform } from './loginform';
+import { AuthFormComponent } from './authform';
 
 describe('Loginform', () => {
-  let component: Loginform;
-  let fixture: ComponentFixture<Loginform>;
+  let component: AuthFormComponent;
+  let fixture: ComponentFixture<AuthFormComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [Loginform],
+      imports: [AuthFormComponent],
     }).compileComponents();
 
-    fixture = TestBed.createComponent(Loginform);
+    fixture = TestBed.createComponent(AuthFormComponent);
     component = fixture.componentInstance;
     await fixture.whenStable();
   });

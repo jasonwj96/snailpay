@@ -1,9 +1,9 @@
 import { Component, signal } from '@angular/core';
-import { Loginform } from '../../components/loginform/loginform';
+import { AuthFormComponent } from '../../components/authform/authform';
 
 @Component({
   selector: 'app-loginpage',
-  imports: [Loginform],
+  imports: [AuthFormComponent],
   templateUrl: './loginpage.html',
   styleUrl: './loginpage.css',
 })
