@@ -1,10 +1,10 @@
 import { Component, signal } from '@angular/core';
-import { LoginForm, RegisterForm } from '../../models/FormData';
-import { FieldTree, form } from '@angular/forms/signals';
+import { LoginForm } from '../../models/FormData';
+import { debounce, email, form, FormField, maxLength, min, minLength, required } from '@angular/forms/signals';
 
 @Component({
   selector: 'app-loginform',
-  imports: [],
+  imports: [FormField],
   templateUrl: './authform.html',
 })
 export class AuthFormComponent {
@@ -13,25 +13,17 @@ export class AuthFormComponent {
     password: '',
   });
 
-  registerModel = signal<RegisterForm>({
-    email: '',
-    fullname: '',
-    password: '',
+  loginForm = form(this.loginModel, schemaPath => {
+    debounce(schemaPath.email, 500);
+    required(schemaPath.email);
+    email(schemaPath.email);
+    required(schemaPath.password);
+    minLength(schemaPath.password, 8);
+    maxLength(schemaPath.password, 128);
   });
-
-  loginForm = form(this.loginModel);
-  registerForm = form(this.registerModel);
-
-  updateEmail(value: string) {
-    this.loginModel.update(form => ({ ...form, email: value }));
-  }
-
-  updatePassword(value: string) {
-    this.loginModel.update(form => ({ ...form, password: value }));
-  }
 
   onSubmit(event: Event) {
     event.preventDefault();
-    console.log('Submitting:', this.loginModel());
+    console.log(`Logging in with: ${this.loginForm.email().value()}, ${this.loginForm.password().value()}`);
   }
 }

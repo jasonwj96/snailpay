@@ -1,7 +1,12 @@
 import styles from "./signup_form.module.scss";
 import Image from "next/image";
+import { useEffect, useState } from "react";
+import { SignupFormData } from "../models/FormData";
 
 export default function SignupForm() {
+  const [signupFormData, setSignupFormData] = useState<SignupFormData>(
+    new SignupFormData("", "", ""),
+  );
   return (
     <div className={styles.wrapper}>
       <div className={styles.left}>
@@ -31,6 +36,7 @@ export default function SignupForm() {
               type="text"
               name="Full name"
               placeholder="John Doe"
+              value={signupFormData.fullname}
             />
           </div>
           <div className={styles.field}>

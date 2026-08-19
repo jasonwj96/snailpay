@@ -14,12 +14,12 @@ function Dropdown({
   item: (typeof navItems)[0];
   anchor: HTMLDivElement | null;
 }) {
-  const [pos, setPos] = useState({ top: 0, left: 0 });
+  const [position, setPosition] = useState({ top: 0, left: 0 });
 
   useEffect(() => {
     if (anchor) {
       const rect = anchor.getBoundingClientRect();
-      setPos({
+      setPosition({
         top: rect.bottom,
         left: rect.left + rect.width / 2,
       });
@@ -27,7 +27,7 @@ function Dropdown({
   }, [anchor]);
 
   return createPortal(
-    <div className={styles.dropdown} style={{ top: pos.top, left: pos.left }}>
+    <div className={styles.dropdown} style={{ top: position.top, left: position.left }}>
       {item.dropdown.map((link) => (
         <Link key={link.href} href={link.href} className={styles.dropdownItem}>
           <span className={styles.dropdownLabel}>{link.label}</span>
