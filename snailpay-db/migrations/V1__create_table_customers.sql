@@ -1,15 +1,19 @@
-CREATE TABLE customers
+CREATE TABLE customer
 (
-    id            UUID PRIMARY KEY     DEFAULT uuidv7(),
-    email         TEXT UNIQUE NOT NULL,
-    phone         TEXT UNIQUE,
-    first_name    TEXT        NOT NULL,
-    last_name     TEXT        NOT NULL,
-    date_of_birth DATE        NOT NULL,
-    status        TEXT        NOT NULL DEFAULT 'pending_verification'
-        CHECK (status IN ('active',
-                          'pending_verification',
-                          'suspended',
-                          'closed')),
-    updated_at    TIMESTAMPTZ NOT NULL DEFAULT now()
-)
+    id                UUID PRIMARY KEY     DEFAULT uuidv7(),
+    public_id         TEXT        NOT NULL UNIQUE,
+    email             TEXT        NOT NULL UNIQUE,
+    email_verified    BOOLEAN     NOT NULL DEFAULT FALSE,
+    email_verified_at TIMESTAMPTZ,
+    phone             VARCHAR(20) UNIQUE,
+    phone_verified    BOOLEAN     NOT NULL DEFAULT FALSE,
+    full_name         VARCHAR(255),
+    date_of_birth     DATE,
+    status            TEXT        NOT NULL DEFAULT 'PENDING'
+        CHECK (status IN ('PENDING', 'ACTIVE', 'SUSPENDED', 'LOCKED', 'CLOSED')),
+    kyc_status        TEXT        NOT NULL DEFAULT 'NOT_STARTED'
+        CHECK (kyc_status IN ('NOT_STARTED', 'PENDING', 'VERIFIED', 'FAILED', 'REQUIRES_REVIEW')),
+    kyc_verified_at   TIMESTAMPTZ,
+    created_at        TIMESTAMPTZ NOT NULL DEFAULT now(),
+    updated_at        TIMESTAMPTZ NOT NULL DEFAULT now()
+);

@@ -1,4 +1,4 @@
-package com.quarkus.jasonwj.resource;
+package com.jasonwj.snailpay.resource;
 
 import io.quarkus.test.junit.QuarkusIntegrationTest;
 
