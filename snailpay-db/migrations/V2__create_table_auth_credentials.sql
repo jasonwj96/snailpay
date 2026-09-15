@@ -2,7 +2,7 @@ CREATE TABLE auth_credential
 (
     id                    UUID PRIMARY KEY     DEFAULT uuidv7(),
     customer_id           UUID        NOT NULL
-        REFERENCES customer (id) ON DELETE CASCADE,
+        REFERENCES customers (id) ON DELETE CASCADE,
     password_hash         TEXT        NOT NULL,
     password_algo         TEXT        NOT NULL DEFAULT 'argon2id'
         CHECK (password_algo IN ('argon2id')),
