@@ -5,7 +5,7 @@ CREATE TABLE mfa_factors
 (
     id               UUID PRIMARY KEY     DEFAULT uuidv7(),
     customer_id      UUID        NOT NULL REFERENCES customers (id) ON DELETE CASCADE,
-    type             TEXT        NOT NULL CHECK (type IN ('sms', 'totp', 'email')),
+    type             TEXT        NOT NULL CHECK (type IN ('SMS', 'TOTP', 'EMAIL')),
     secret_encrypted BYTEA       NOT NULL,
     phone_number     TEXT,
     is_primary       BOOLEAN     NOT NULL DEFAULT FALSE,

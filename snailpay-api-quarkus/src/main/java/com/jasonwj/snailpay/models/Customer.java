@@ -1,65 +1,60 @@
 package com.jasonwj.snailpay.models;
 
+import io.quarkus.hibernate.reactive.panache.PanacheEntityBase;
 import jakarta.persistence.*;
-import lombok.Getter;
-import lombok.Setter;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
+import java.time.Instant;
 import java.time.LocalDate;
-import java.time.OffsetDateTime;
 import java.util.UUID;
 
 @Entity
-@Getter
-@Setter
-@Table(name = "customer")
-public class Customer {
+@Table(name = "customers")
+public class Customer extends PanacheEntityBase {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.UUID)
-    private UUID id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id", updatable = false, nullable = false)
+    public UUID id;
 
-    @Column(name = "public_id", nullable = false, unique = true, length = 30)
-    private String publicId;
+    @Column(name = "external_id", nullable = false, unique = true)
+    public String externalId;
 
-    @Column(nullable = false, unique = true)
-    private String email;
-
-    @Column(name = "email_verified", nullable = false)
-    private boolean emailVerified = false;
+    @Column(name = "email", nullable = false, unique = true)
+    public String email;
 
     @Column(name = "email_verified_at")
-    private OffsetDateTime emailVerifiedAt;
+    public Instant emailVerifiedAt;
 
-    @Column(length = 20)
-    private String phone;
+    @Column(name = "phone", length = 20, unique = true)
+    public String phone;
 
-    @Column(name = "phone_verified", nullable = false)
-    private boolean phoneVerified = false;
+    @Column(name = "phone_verified_at")
+    public Instant phoneVerifiedAt;
 
-    @Column(name = "full_name")
-    private String fullName;
+    @Column(name = "full_name", length = 255)
+    public String fullName;
 
     @Column(name = "date_of_birth")
-    private LocalDate dateOfBirth;
+    public LocalDate dateOfBirth;
 
     @Enumerated(EnumType.STRING)
-    @Column(nullable = false, length = 30)
-    private CustomerStatus status = CustomerStatus.PENDING;
+    @Column(name = "status", nullable = false)
+    public CustomerStatus status = CustomerStatus.PENDING;
 
     @Enumerated(EnumType.STRING)
-    @Column(name = "kyc_status", nullable = false, length = 30)
-    private KycStatus kycStatus = KycStatus.NOT_STARTED;
+    @Column(name = "kyc_status", nullable = false)
+    public KycStatus kycStatus = KycStatus.NOT_STARTED;
 
     @Column(name = "kyc_verified_at")
-    private OffsetDateTime kycVerifiedAt;
+    public Instant kycVerifiedAt;
 
     @CreationTimestamp
     @Column(name = "created_at", nullable = false, updatable = false)
-    private OffsetDateTime createdAt;
+    public Instant createdAt;
 
     @UpdateTimestamp
     @Column(name = "updated_at", nullable = false)
-    private OffsetDateTime updatedAt;
+    public Instant updatedAt;
 }

@@ -1,0 +1,13 @@
+package com.jasonwj.snailpay.models;
+
+public enum AuditEventType {
+    LOGIN_SUCCESS,
+    LOGIN_FAILURE,
+    PASSWORD_RESET_REQUESTED,
+    PASSWORD_RESET_COMPLETED,
+    MFA_CHALLENGE_SENT,
+    MFA_CHALLENGE_SUCCESS,
+    MFA_CHALLENGE_FAILURE,
+    ACCOUNT_LOCKED,
+    ACCOUNT_UNLOCKED
+}

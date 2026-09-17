@@ -3,7 +3,7 @@ CREATE TABLE consent_records
     id               UUID PRIMARY KEY     DEFAULT uuidv7(),
     customer_id      UUID        NOT NULL REFERENCES customers (id) ON DELETE CASCADE,
     consent_type     TEXT        NOT NULL CHECK (
-        consent_type IN ('terms_of_service', 'privacy_policy', 'esign_consent', 'marketing_opt_in')
+        consent_type IN ('TERMS_OF_SERVICE', 'PRIVACY_POLICY', 'ESIGN_CONSENT', 'MARKETING_OPT_IN')
         ),
     document_version TEXT        NOT NULL,
     accepted_at      TIMESTAMPTZ NOT NULL DEFAULT now(),

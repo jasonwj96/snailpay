@@ -1,14 +1,14 @@
-CREATE TABLE auth_audit_log
+CREATE TABLE auth_audit_logs
 (
     id              UUID PRIMARY KEY     DEFAULT uuidv7(),
     customer_id     UUID        REFERENCES customers (id) ON DELETE SET NULL,
     email_attempted TEXT,
     event_type      TEXT        NOT NULL CHECK (
         event_type IN (
-                       'login_success', 'login_failure', 'password_reset_requested',
-                       'password_reset_completed', 'mfa_challenge_sent',
-                       'mfa_challenge_success', 'mfa_challenge_failure',
-                       'account_locked', 'account_unlocked'
+                       'LOGIN_SUCCESS', 'LOGIN_FAILURE', 'PASSWORD_RESET_REQUESTED',
+                       'PASSWORD_RESET_COMPLETED', 'MFA_CHALLENGE_SENT',
+                       'MFA_CHALLENGE_SUCCESS', 'MFA_CHALLENGE_FAILURE',
+                       'ACCOUNT_LOCKED', 'ACCOUNT_UNLOCKED'
             )
         ),
     ip_address      INET,

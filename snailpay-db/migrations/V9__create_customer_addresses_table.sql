@@ -2,7 +2,7 @@ CREATE TABLE customer_addresses
 (
     id             UUID PRIMARY KEY     DEFAULT uuidv7(),
     customer_id    UUID        NOT NULL REFERENCES customers (id) ON DELETE CASCADE,
-    address_type   TEXT        NOT NULL CHECK (address_type IN ('residential', 'mailing')),
+    address_type   TEXT        NOT NULL CHECK (address_type IN ('RESIDENTIAL', 'MAILING')),
     line1          TEXT        NOT NULL,
     line2          TEXT,
     city           TEXT        NOT NULL,
