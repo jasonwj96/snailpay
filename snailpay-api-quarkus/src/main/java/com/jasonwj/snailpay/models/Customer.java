@@ -1,5 +1,7 @@
 package com.jasonwj.snailpay.models;
 
+import com.jasonwj.snailpay.enums.CustomerStatus;
+import com.jasonwj.snailpay.enums.KycStatus;
 import io.quarkus.hibernate.reactive.panache.PanacheEntityBase;
 import jakarta.persistence.*;
 import org.hibernate.annotations.CreationTimestamp;

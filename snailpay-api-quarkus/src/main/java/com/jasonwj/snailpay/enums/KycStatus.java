@@ -1,4 +1,4 @@
-package com.jasonwj.snailpay.models;
+package com.jasonwj.snailpay.enums;
 
 public enum KycStatus {
     NOT_STARTED,

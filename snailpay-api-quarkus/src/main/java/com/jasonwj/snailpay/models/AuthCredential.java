@@ -1,5 +1,6 @@
 package com.jasonwj.snailpay.models;
 
+import com.jasonwj.snailpay.enums.PasswordAlgo;
 import io.quarkus.hibernate.reactive.panache.PanacheEntityBase;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -14,7 +15,7 @@ import java.time.Instant;
 import java.util.UUID;
 
 @Entity
-@Table(name = "auth_credential")
+@Table(name = "auth_credentials")
 public class AuthCredential extends PanacheEntityBase {
 
     @Id
