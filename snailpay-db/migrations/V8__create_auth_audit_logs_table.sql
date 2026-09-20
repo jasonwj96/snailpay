@@ -17,9 +17,9 @@ CREATE TABLE auth_audit_logs
     created_at      TIMESTAMPTZ NOT NULL DEFAULT now()
 );
 
-CREATE INDEX idx_auth_audit_log_customer_id ON auth_audit_log (customer_id);
-CREATE INDEX idx_auth_audit_log_created_at ON auth_audit_log (created_at);
-CREATE INDEX idx_auth_audit_log_event_type ON auth_audit_log (event_type);
+CREATE INDEX idx_auth_audit_log_customer_id ON auth_audit_logs (customer_id);
+CREATE INDEX idx_auth_audit_log_created_at ON auth_audit_logs (created_at);
+CREATE INDEX idx_auth_audit_log_event_type ON auth_audit_logs (event_type);
 
 CREATE OR REPLACE FUNCTION reject_audit_log_mutation()
     RETURNS TRIGGER AS
@@ -31,12 +31,12 @@ $$ LANGUAGE plpgsql;
 
 CREATE TRIGGER trg_auth_audit_log_no_update
     BEFORE UPDATE
-    ON auth_audit_log
+    ON auth_audit_logs
     FOR EACH ROW
 EXECUTE FUNCTION reject_audit_log_mutation();
 
 CREATE TRIGGER trg_auth_audit_log_no_delete
     BEFORE DELETE
-    ON auth_audit_log
+    ON auth_audit_logs
     FOR EACH ROW
 EXECUTE FUNCTION reject_audit_log_mutation();
