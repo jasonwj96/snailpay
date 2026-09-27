@@ -7,8 +7,7 @@ import java.security.SecureRandom;
 @ApplicationScoped
 public class IdGenerator {
 
-    private static final String ALPHABET =
-            "ABCDEFGHJKLMNPQRSTUVWXYZ23456789";
+    private static final String ALPHABET = "ABCDEFGHJKLMNPQRSTUVWXYZ23456789";
 
     private static final int ID_LENGTH = 8;
 

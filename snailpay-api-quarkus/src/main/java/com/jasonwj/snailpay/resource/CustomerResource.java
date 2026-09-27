@@ -1,5 +1,6 @@
 package com.jasonwj.snailpay.resource;
 
+import com.jasonwj.snailpay.dto.CustomerRegistrationRequest;
 import com.jasonwj.snailpay.models.Customer;
 import com.jasonwj.snailpay.service.CustomerService;
 import io.smallrye.mutiny.Uni;
@@ -21,7 +22,7 @@ public class CustomerResource {
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
-    public Uni<Customer> createCustomer(Customer customer) {
-        return customerService.createCustomer(customer);
+    public Uni<Customer> createCustomer(CustomerRegistrationRequest request) {
+        return customerService.createCustomer(request);
     }
 }
