@@ -9,8 +9,6 @@ repositories {
     mavenLocal()
 }
 
-def lombokVersion = '1.18.42'
-def mapstructVersion = '1.6.3'
 
 dependencies {
     implementation enforcedPlatform("${quarkusPlatformGroupId}:${quarkusPlatformArtifactId}:${quarkusPlatformVersion}")
@@ -18,8 +16,12 @@ dependencies {
     implementation 'io.quarkus:quarkus-rest'
     implementation 'io.quarkus:quarkus-rest-jackson'
     implementation 'io.quarkus:quarkus-hibernate-reactive-panache'
+    implementation 'io.quarkus:quarkus-hibernate-validator'
     implementation 'io.quarkus:quarkus-reactive-pg-client'
     implementation 'io.quarkus:quarkus-config-yaml'
+    implementation 'io.quarkus:quarkus-mailer'
+    implementation 'io.quarkus:quarkus-qute'
+    implementation 'commons-codec:commons-codec:1.22.1'
     implementation "org.mapstruct:mapstruct:${mapstructVersion}"
 
     compileOnly "org.projectlombok:lombok:${lombokVersion}"
