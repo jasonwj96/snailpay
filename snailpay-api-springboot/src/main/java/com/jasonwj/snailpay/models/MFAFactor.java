@@ -20,6 +20,7 @@ public class MFAFactor {
     @Column(name = "customer_id", nullable = false, updatable = false)
     public UUID customerId;
 
+    @Enumerated(EnumType.STRING)
     @Column(name = "type", nullable = false)
     public MFAFactorType type;
 

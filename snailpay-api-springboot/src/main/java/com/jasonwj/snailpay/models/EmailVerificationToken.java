@@ -11,7 +11,6 @@ import java.util.UUID;
 public class EmailVerificationToken  {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", updatable = false, nullable = false)
     public UUID id;
 

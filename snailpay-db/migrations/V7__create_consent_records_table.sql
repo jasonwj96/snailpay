@@ -7,7 +7,7 @@ CREATE TABLE consent_records
         ),
     document_version TEXT        NOT NULL,
     accepted_at      TIMESTAMPTZ NOT NULL DEFAULT now(),
-    ip_address       INET,
+    ip_address       TEXT,
     user_agent       TEXT,
     created_at       TIMESTAMPTZ NOT NULL DEFAULT now()
 );

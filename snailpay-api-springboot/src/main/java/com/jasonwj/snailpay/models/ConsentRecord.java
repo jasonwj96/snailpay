@@ -12,7 +12,6 @@ import java.util.UUID;
 public class ConsentRecord  {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", updatable = false, nullable = false)
     public UUID id;
 

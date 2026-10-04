@@ -1,11 +1,15 @@
 package com.jasonwj.snailpay.models;
 
 import com.jasonwj.snailpay.enums.AddressType;
+import com.jasonwj.snailpay.enums.CountryCode;
 import jakarta.persistence.*;
 import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.JdbcType;
 import org.hibernate.annotations.UpdateTimestamp;
+import org.hibernate.type.descriptor.jdbc.CharJdbcType;
 
 import java.time.Instant;
+import java.util.Locale;
 import java.util.UUID;
 
 @Entity
@@ -13,7 +17,6 @@ import java.util.UUID;
 public class CustomerAddress  {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", updatable = false, nullable = false)
     public UUID id;
 
@@ -39,8 +42,10 @@ public class CustomerAddress  {
     @Column(name = "postal_code", nullable = false)
     public String postalCode;
 
-    @Column(name = "country_code", nullable = false, length = 2)
-    public String countryCode = "US";
+    @Enumerated(EnumType.STRING)
+    @JdbcType(CharJdbcType.class)
+    @Column(name = "country_code", nullable = false)
+    public CountryCode countryCode;
 
     @Column(name = "is_current", nullable = false)
     public boolean isCurrent = true;

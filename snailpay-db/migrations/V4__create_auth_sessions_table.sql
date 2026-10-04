@@ -4,7 +4,7 @@ CREATE TABLE auth_sessions
     customer_id UUID        NOT NULL REFERENCES customers (id) ON DELETE CASCADE,
     token_hash  TEXT        NOT NULL,
     device_info JSONB,
-    ip_address  INET,
+    ip_address  TEXT,
     user_agent  TEXT,
     created_at  TIMESTAMPTZ NOT NULL DEFAULT now(),
     expires_at  TIMESTAMPTZ NOT NULL,

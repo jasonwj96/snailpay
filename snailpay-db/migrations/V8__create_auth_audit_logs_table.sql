@@ -11,7 +11,7 @@ CREATE TABLE auth_audit_logs
                        'ACCOUNT_LOCKED', 'ACCOUNT_UNLOCKED'
             )
         ),
-    ip_address      INET,
+    ip_address      TEXT,
     user_agent      TEXT,
     failure_reason  TEXT,
     created_at      TIMESTAMPTZ NOT NULL DEFAULT now()

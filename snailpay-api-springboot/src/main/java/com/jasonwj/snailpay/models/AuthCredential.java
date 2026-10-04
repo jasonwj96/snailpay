@@ -13,19 +13,16 @@ import java.util.UUID;
 public class AuthCredential  {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", updatable = false, nullable = false)
     public UUID id;
 
-    // Stored as a raw FK, not a @OneToOne to Customer keeps this entity
-    // free of lazy-loading/association-fetch concerns in the reactive stack.
-    // Fetch the Customer separately when both are needed.
     @Column(name = "customer_id", nullable = false, unique = true, updatable = false)
     public UUID customerId;
 
     @Column(name = "password_hash", nullable = false)
     public String passwordHash;
 
+    @Enumerated(EnumType.STRING)
     @Column(name = "password_algo", nullable = false)
     public PasswordAlgo passwordAlgo = PasswordAlgo.ARGON2ID;
 
