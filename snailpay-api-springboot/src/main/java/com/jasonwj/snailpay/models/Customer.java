@@ -7,6 +7,7 @@ import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
+import org.hibernate.annotations.UuidGenerator;
 
 import java.time.Instant;
 import java.time.LocalDate;
@@ -20,6 +21,7 @@ public class Customer {
 
     @Id
     @Column(name = "id", updatable = false, nullable = false)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     public UUID id;
 
     @Column(name = "external_id", nullable = false, unique = true)
@@ -37,8 +39,17 @@ public class Customer {
     @Column(name = "phone_verified_at")
     public Instant phoneVerifiedAt;
 
-    @Column(name = "full_name")
-    public String fullName;
+    @Column(name = "first_name")
+    public String firstName;
+
+    @Column(name = "middle_name")
+    public String middleName;
+
+    @Column(name = "last_name")
+    public String lastName;
+
+    @Column(name = "suffix")
+    public String suffix;
 
     @Column(name = "date_of_birth")
     public LocalDate dateOfBirth;

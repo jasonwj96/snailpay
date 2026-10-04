@@ -8,11 +8,10 @@ import java.time.Instant;
 
 public record CustomerRegistrationResponse(
         String externalId,
-        String email,
-        String fullName,
         CustomerStatus status,
         KycStatus kycStatus,
-        Instant createdAt
+        Instant createdAt,
+        Instant updatedAt
 ) {
 
 }
