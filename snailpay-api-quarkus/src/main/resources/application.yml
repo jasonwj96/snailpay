@@ -5,6 +5,14 @@ quarkus:
     password: ${POSTGRES_PASSWORD}
     reactive:
       url: postgresql://${POSTGRES_HOST}:${POSTGRES_PORT}/${POSTGRES_DB}
+    mailer:
+      mock: ${QUARKUS_MAILER_MOCK}
+      from: ${QUARKUS_MAILER_FROM}
+      host: ${QUARKUS_MAILER_HOST}
+      port: ${QUARKUS_MAILER_PORT}
+      username: ${QUARKUS_MAILER_USERNAME}
+      password: ${QUARKUS_MAILER_PASSWORD}
+      start-tls: ${QUARKUS_MAILER_START_TLS}
 
   hibernate-reactive:
     database:

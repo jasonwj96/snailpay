@@ -6,7 +6,10 @@ CREATE TABLE customers
     email_verified_at TIMESTAMPTZ,
     phone             VARCHAR(20) UNIQUE,
     phone_verified_at TIMESTAMPTZ,
-    full_name         VARCHAR(255),
+    first_name        TEXT        NOT NULL,
+    middle_name       TEXT,
+    last_name         TEXT        NOT NULL,
+    suffix            TEXT        NOT NULL,
     date_of_birth     DATE,
     status            TEXT        NOT NULL DEFAULT 'PENDING'
         CHECK (status IN ('PENDING', 'ACTIVE', 'SUSPENDED', 'LOCKED', 'CLOSED')),

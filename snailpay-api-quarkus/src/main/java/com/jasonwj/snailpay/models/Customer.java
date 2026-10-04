@@ -35,8 +35,17 @@ public class Customer extends PanacheEntityBase {
     @Column(name = "phone_verified_at")
     public Instant phoneVerifiedAt;
 
-    @Column(name = "full_name", length = 255)
-    public String fullName;
+    @Column(name = "first_name", nullable = false)
+    public String firstName;
+
+    @Column(name = "middle_name")
+    public String middleName;
+
+    @Column(name = "last_name", nullable = false)
+    public String lastName;
+
+    @Column(name = "suffix", nullable = false)
+    public String suffix;
 
     @Column(name = "date_of_birth")
     public LocalDate dateOfBirth;
