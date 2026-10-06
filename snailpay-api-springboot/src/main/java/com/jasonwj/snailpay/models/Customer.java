@@ -2,74 +2,67 @@ package com.jasonwj.snailpay.models;
 
 import com.jasonwj.snailpay.enums.CustomerStatus;
 import com.jasonwj.snailpay.enums.KycStatus;
-import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
-import org.hibernate.annotations.CreationTimestamp;
-import org.hibernate.annotations.UpdateTimestamp;
-import org.hibernate.annotations.UuidGenerator;
+import org.springframework.data.annotation.Id;
+import org.springframework.data.relational.core.mapping.Column;
+import org.springframework.data.relational.core.mapping.Table;
 
 import java.time.Instant;
 import java.time.LocalDate;
 import java.util.UUID;
 
-@Entity
-@Table(name = "customers")
 @Getter
 @Setter
+@Table("customers")
 public class Customer {
 
     @Id
-    @Column(name = "id", updatable = false, nullable = false)
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    public UUID id;
+    @Column("id")
+    private UUID id;
 
-    @Column(name = "external_id", nullable = false, unique = true)
-    public String externalId;
+    @Column("external_id")
+    private String externalId;
 
-    @Column(name = "email", nullable = false, unique = true)
-    public String email;
+    @Column("email")
+    private String email;
 
-    @Column(name = "email_verified_at")
-    public Instant emailVerifiedAt;
+    @Column("email_verified_at")
+    private Instant emailVerifiedAt;
 
-    @Column(name = "phone", unique = true)
-    public String phone;
+    @Column("phone")
+    private String phone;
 
-    @Column(name = "phone_verified_at")
-    public Instant phoneVerifiedAt;
+    @Column("phone_verified_at")
+    private Instant phoneVerifiedAt;
 
-    @Column(name = "first_name")
-    public String firstName;
+    @Column("first_name")
+    private String firstName;
 
-    @Column(name = "middle_name")
-    public String middleName;
+    @Column("middle_name")
+    private String middleName;
 
-    @Column(name = "last_name")
-    public String lastName;
+    @Column("last_name")
+    private String lastName;
 
-    @Column(name = "suffix")
-    public String suffix;
+    @Column("suffix")
+    private String suffix;
 
-    @Column(name = "date_of_birth")
-    public LocalDate dateOfBirth;
+    @Column("date_of_birth")
+    private LocalDate dateOfBirth;
 
-    @Enumerated(EnumType.STRING)
-    @Column(name = "status", nullable = false)
-    public CustomerStatus status = CustomerStatus.PENDING;
+    @Column("status")
+    private CustomerStatus status = CustomerStatus.PENDING;
 
-    @Enumerated(EnumType.STRING)
-    @Column(name = "kyc_status", nullable = false)
-    public KycStatus kycStatus = KycStatus.NOT_STARTED;
+    @Column("kyc_status")
+    private KycStatus kycStatus = KycStatus.NOT_STARTED;
 
-    @Column(name = "kyc_verified_at")
-    public Instant kycVerifiedAt;
+    @Column("kyc_verified_at")
+    private Instant kycVerifiedAt;
 
-    @CreationTimestamp
-    @Column(name = "created_at", nullable = false, updatable = false)
-    public Instant createdAt;
+    @Column("created_at")
+    private Instant createdAt;
 
-    @UpdateTimestamp
-    @Column(name = "updated_at", nullable = false)
-    public Instant updatedAt;
+    @Column("updated_at")
+    private Instant updatedAt;
 }

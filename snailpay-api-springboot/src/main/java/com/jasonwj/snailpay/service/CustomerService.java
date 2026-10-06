@@ -3,31 +3,32 @@ package com.jasonwj.snailpay.service;
 import com.jasonwj.snailpay.dto.CustomerRegistrationRequest;
 import com.jasonwj.snailpay.dto.CustomerRegistrationResponse;
 import com.jasonwj.snailpay.mapper.CustomerMapper;
-import com.jasonwj.snailpay.models.Customer;
 import com.jasonwj.snailpay.repository.CustomerRepository;
 import com.jasonwj.snailpay.util.IdGenerator;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import reactor.core.publisher.Mono;
 
 @Service
+@RequiredArgsConstructor
 public class CustomerService {
 
-    @Autowired
-    private CustomerRepository customerRepository;
-
-    @Autowired
-    private CustomerMapper customerMapper;
-
-    @Autowired
-    private IdGenerator idGenerator;
+    private final CustomerRepository customerRepository;
+    private final CustomerMapper customerMapper;
+    private final IdGenerator idGenerator;
 
     @Transactional
-    public CustomerRegistrationResponse createCustomer(CustomerRegistrationRequest request) {
-        Customer newCustomer = customerMapper.toEntity(request);
-        newCustomer.setExternalId(idGenerator.getPublicCustomerId());
+    public Mono<CustomerRegistrationResponse> createCustomer(
+            CustomerRegistrationRequest request) {
 
-        Customer persisted = customerRepository.save(newCustomer);
-        return customerMapper.toResponse(persisted);
+        return Mono.fromSupplier(() -> customerMapper.toEntity(request))
+                .doOnNext(customer ->
+                        customer.setExternalId(
+                                idGenerator.getPublicCustomerId()
+                        )
+                )
+                .flatMap(customerRepository::save)
+                .map(customerMapper::toResponse);
     }
 }
