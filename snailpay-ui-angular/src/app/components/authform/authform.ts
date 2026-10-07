@@ -1,5 +1,5 @@
 import { Component, signal } from '@angular/core';
-import { LoginForm } from '../../models/FormData';
+import { LoginForm } from '../../models/Authentication.models';
 import { debounce, email, form, FormField, maxLength, min, minLength, required } from '@angular/forms/signals';
 
 @Component({

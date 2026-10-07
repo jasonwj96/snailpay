@@ -1,0 +1,107 @@
+<div class="flex flex-col items-stretch gap-4">
+
+  <!-- Email verification card -->
+  <div class="flex flex-col items-stretch gap-2 p-4 border border-border rounded-sm">
+    <div class="flex flex-row items-center justify-between">
+      <span class="text-sm font-medium text-text">Email verification</span>
+
+      @switch (wizard.emailVerification()) {
+        @case ('VERIFIED') {
+          <span class="text-xs font-medium text-green-600">✓ Verified</span>
+        }
+        @case ('SENT') {
+          <span class="text-xs font-medium text-text-muted">Check your inbox</span>
+        }
+        @case ('SENDING') {
+          <span class="text-xs font-medium text-text-muted">Sending…</span>
+        }
+        @case ('FAILED') {
+          <span class="text-xs font-medium text-red-500">Failed to send</span>
+        }
+        @default {
+          <span class="text-xs font-medium text-text-muted">Not started</span>
+        }
+      }
+    </div>
+
+    @if (wizard.emailVerification() !== 'VERIFIED') {
+      <p class="text-xs text-text-muted">
+        We sent a link to {{ wizard.registrationResponse()?.email }}. Click it to verify —
+        this page updates automatically once it's done.
+      </p>
+      <button
+        type="button"
+        class="self-start text-xs text-primary hover:underline"
+        (click)="sendEmailVerification()">
+        Resend email
+      </button>
+    }
+  </div>
+
+  <!-- Phone verification card -->
+  <div class="flex flex-col items-stretch gap-2 p-4 border border-border rounded-sm">
+    <div class="flex flex-row items-center justify-between">
+      <span class="text-sm font-medium text-text">Phone verification</span>
+
+      @switch (wizard.phoneVerification()) {
+        @case ('VERIFIED') {
+          <span class="text-xs font-medium text-green-600">✓ Verified</span>
+        }
+        @case ('SENT') {
+          <span class="text-xs font-medium text-text-muted">Code sent</span>
+        }
+        @case ('SENDING') {
+          <span class="text-xs font-medium text-text-muted">Sending…</span>
+        }
+        @case ('FAILED') {
+          <span class="text-xs font-medium text-red-500">Failed to send</span>
+        }
+        @default {
+          <span class="text-xs font-medium text-text-muted">Not started</span>
+        }
+      }
+    </div>
+
+    @if (wizard.phoneVerification() === 'NOT_STARTED' || wizard.phoneVerification() === 'FAILED') {
+      <button
+        type="button"
+        class="self-start py-2 px-4 bg-primary text-white border-none rounded-sm text-xs font-medium cursor-pointer transition-colors hover:bg-primary-dark"
+        (click)="sendPhoneCode()">
+        Send verification code
+      </button>
+    }
+
+    @if (wizard.phoneVerification() === 'SENT') {
+      <div class="flex flex-col items-start gap-1 mt-1">
+        <label class="text-[13px] font-medium text-text">Enter code</label>
+        <div class="flex flex-row gap-2 w-full">
+          <input
+            class="flex-1 px-3 py-2 bg-bg border border-border rounded-sm text-text text-sm outline-none transition-colors focus:border-primary placeholder:text-text-muted"
+            type="text" inputmode="numeric" maxlength="6" placeholder="123456"
+            [value]="phoneCode()"
+            (input)="phoneCode.set($any($event.target).value)" />
+          <button
+            type="button"
+            class="py-2 px-4 bg-primary text-white border-none rounded-sm text-sm font-medium cursor-pointer transition-colors hover:bg-primary-dark"
+            (click)="submitPhoneCode()">
+            Verify
+          </button>
+        </div>
+        @if (phoneCodeError()) {
+          <p class="text-xs text-red-500">{{ phoneCodeError() }}</p>
+        }
+        <button type="button" class="text-xs text-primary hover:underline" (click)="sendPhoneCode()">
+          Resend code
+        </button>
+      </div>
+    }
+  </div>
+
+  <button
+    type="button"
+    class="w-full py-3 bg-primary text-white border-none rounded-sm text-sm font-medium cursor-pointer transition-colors hover:bg-primary-dark disabled:opacity-50 disabled:cursor-not-allowed"
+    [disabled]="!wizard.bothVerified()"
+    (click)="continueToNextStep()">
+    Continue
+  </button>
+</div>
