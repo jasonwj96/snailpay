@@ -1,7 +1,7 @@
 import { Component, DestroyRef, inject, OnInit, signal } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { interval, switchMap, takeWhile } from 'rxjs';
-import { RegistrationWizardService } from '../../services/registration-wizard';
+import { RegistrationWizardService } from '../../services/wizard';
 import { CustomerRegistrationService } from '../../services/customer-registration';
 
 const POLL_INTERVAL_MS = 4000;

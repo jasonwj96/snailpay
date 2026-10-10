@@ -7,7 +7,7 @@ import {
   pattern,
   required,
 } from '@angular/forms/signals';
-import { RegistrationWizardService } from '../../services/registration-wizard';
+import { RegistrationWizardService } from '../../services/wizard';
 import { CustomerRegistrationService } from '../../services/customer-registration';
 import { CustomerRegistrationRequest } from '../../models/Registration.models';
 
