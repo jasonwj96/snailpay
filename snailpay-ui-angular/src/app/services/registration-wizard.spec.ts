@@ -1,13 +1,13 @@
 import { TestBed } from '@angular/core/testing';
 
-import { RegistrationWizard } from './registration-wizard';
+import { RegistrationWizardService } from './registration-wizard';
 
 describe('RegistrationWizard', () => {
-  let service: RegistrationWizard;
+  let service: RegistrationWizardService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({});
-    service = TestBed.inject(RegistrationWizard);
+    service = TestBed.inject(RegistrationWizardService);
   });
 
   it('should be created', () => {

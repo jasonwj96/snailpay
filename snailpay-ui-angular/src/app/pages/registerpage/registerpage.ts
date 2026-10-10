@@ -1,4 +1,3 @@
-// pages/registerpage/registerpage.ts
 import { Component } from '@angular/core';
 import { RegisterWizardComponent } from '../../components/register-wizard/register-wizard';
 
