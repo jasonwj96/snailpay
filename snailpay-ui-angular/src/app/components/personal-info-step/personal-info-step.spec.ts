@@ -1,6 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { PersonalInfoStepComponent } from './personal-info-step-component';
+import { PersonalInfoStepComponent } from './personal-info-step';
 
 describe('PersonalInfoStepComponent', () => {
   let component: PersonalInfoStepComponent;

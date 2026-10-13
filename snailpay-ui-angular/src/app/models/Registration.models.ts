@@ -7,9 +7,9 @@ export interface CustomerRegistrationRequest {
   email: string;
   phone: string;
   firstName: string;
-  middleName: string;
+  middleName : string | undefined;
   lastName: string;
-  suffix: string;
+  suffix: string | undefined;
   dateOfBirth: string;
 }
 
@@ -21,3 +21,23 @@ export interface CustomerRegistrationResponse {
   createdAt: string;
   updatedAt: string;
 }
+
+export interface RegistrationFormModel {
+  email: string;
+  phone: string;
+  firstName: string;
+  middleName: string;
+  lastName: string;
+  suffix: string;
+  dateOfBirth: string;
+}
+
+export const emptyRegistrationForm = (): RegistrationFormModel => ({
+  email: '',
+  phone: '',
+  firstName: '',
+  middleName: '',
+  lastName: '',
+  suffix: '',
+  dateOfBirth: '',
+});

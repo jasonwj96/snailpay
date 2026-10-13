@@ -4,8 +4,8 @@ import { WizardComponent } from '../../components/wizard/wizard';
 import { KycStepComponent } from '../../components/kyc-step-component/kyc-step-component';
 import { WizardStep } from '../../models/Wizard.models';
 import { RegistrationStateService } from '../../services/registration-state-service';
-import { PersonalInfoStepComponent } from '../../components/personal-info-step-component/personal-info-step-component';
-import { VerificationStepComponent } from '../../components/verification-step-component/verification-step-component';
+import { PersonalInfoStepComponent } from '../../components/personal-info-step/personal-info-step';
+import { VerificationStepComponent } from '../../components/verification-step/verification-step-component';
 
 @Component({
   selector: 'app-registerpage',
