@@ -1,14 +1,6 @@
 <div class="flex flex-col items-center justify-center min-h-screen bg-bg p-4">
   <div class="w-full max-w-[560px] p-8 bg-surface border border-border rounded-lg">
-    <app-wizard
-      [steps]="steps"
-      heading="Create your account"
-      logoSrc="/snailpay-logo-full.svg"
-      (completed)="onCompleted()">
-      <p wizard-subtitle class="text-sm text-text-muted">
-        Already have an account?
-        <a href="/login" class="text-primary hover:underline">Log in</a>
-      </p>
+    <app-wizard [steps]="steps" (completed)="onCompleted()">
     </app-wizard>
   </div>
 </div>

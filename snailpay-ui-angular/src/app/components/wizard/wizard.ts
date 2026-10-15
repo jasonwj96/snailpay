@@ -10,8 +10,6 @@ import { WizardStep } from '../../models/Wizard.models';
 export class WizardComponent {
   readonly steps = input.required<readonly WizardStep[]>();
   readonly initialStepId = input<string>();
-  readonly heading = input<string>();
-  readonly logoSrc = input<string>();
   readonly completed = output<void>();
 
   private readonly _index = linkedSignal(() => {
