@@ -1,6 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { KycStepComponent } from './kyc-step-component';
+import { KycStepComponent } from './kyc-step';
 
 describe('KycStepComponent', () => {
   let component: KycStepComponent;

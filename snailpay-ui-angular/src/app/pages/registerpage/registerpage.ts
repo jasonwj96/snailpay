@@ -1,7 +1,7 @@
 import { Component, inject } from '@angular/core';
 import { Router } from '@angular/router';
 import { WizardComponent } from '../../components/wizard/wizard';
-import { KycStepComponent } from '../../components/kyc-step-component/kyc-step-component';
+import { KycStepComponent } from '../../components/kyc-step/kyc-step';
 import { WizardStep } from '../../models/Wizard.models';
 import { RegistrationStateService } from '../../services/registration-state-service';
 import { PersonalInfoStepComponent } from '../../components/personal-info-step/personal-info-step';
