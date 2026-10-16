@@ -51,8 +51,6 @@ export class PersonalInfoStepComponent {
     this.submitting.set(true);
     this.submitError.set(null);
 
-    // Form model uses '' for empty fields; the request omits them so the
-    // backend stores NULL instead of an empty string.
     const { middleName, suffix, ...rest } = this.model();
     const request: CustomerRegistrationRequest = {
       ...rest,
@@ -64,7 +62,7 @@ export class PersonalInfoStepComponent {
       next: response => {
         this.submitting.set(false);
         this.registration.customer.set(response);
-        this.wizard.next();
+        this.wizard.goToNextStep();
       },
       error: () => {
         this.submitting.set(false);

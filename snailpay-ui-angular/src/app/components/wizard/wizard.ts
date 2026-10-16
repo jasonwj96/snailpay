@@ -12,27 +12,21 @@ export class WizardComponent {
   readonly initialStepId = input<string>();
   readonly completed = output<void>();
 
-  private readonly _index = linkedSignal(() => {
-    const id = this.initialStepId();
-    const index = id ? this.steps().findIndex(s => s.id === id) : 0;
-    return Math.max(index, 0);
+  private readonly _currentStepIndex = linkedSignal(() => {
+    const startId = this.initialStepId();
+    const startIndex = startId ? this.steps().findIndex(step => step.id === startId) : 0;
+    return Math.max(startIndex, 0);
   });
 
-  readonly stepIndex = this._index.asReadonly();
-  readonly step = computed(() => this.steps()[this._index()]);
+  readonly currentStepIndex = this._currentStepIndex.asReadonly();
+  readonly currentStep = computed(() => this.steps()[this._currentStepIndex()]);
 
-  next(): void {
-    if (this._index() >= this.steps().length - 1) {
+  goToNextStep(): void {
+    const isLastStep = this._currentStepIndex() >= this.steps().length - 1;
+    if (isLastStep) {
       this.completed.emit();
     } else {
-      this._index.update(i => i + 1);
-    }
-  }
-
-  goTo(id: string): void {
-    const index = this.steps().findIndex(s => s.id === id);
-    if (index >= 0) {
-      this._index.set(index);
+      this._currentStepIndex.update(index => index + 1);
     }
   }
 }

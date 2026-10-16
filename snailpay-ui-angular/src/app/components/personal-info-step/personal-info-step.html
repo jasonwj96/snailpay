@@ -33,14 +33,14 @@
 
     <div class="flex flex-col items-start gap-1 w-[120px]">
       <label class="text-[13px] font-medium text-text">Suffix</label>
-      <input
-        class="w-full px-3 py-2 bg-bg border border-border rounded-sm text-text text-sm outline-none transition-colors focus:border-primary placeholder:text-text-muted"
-        type="text" list="suffix-options" placeholder="Jr." [formField]="personalInfoForm.suffix" />
-      <datalist id="suffix-options">
+      <select
+        class="w-full px-3 py-2 bg-bg border border-border rounded-sm text-text text-sm outline-none transition-colors focus:border-primary cursor-pointer"
+        [formField]="personalInfoForm.suffix">
+        <option value="">None</option>
         @for (option of suffixOptions; track option) {
-        <option [value]="option"></option>
+        <option [value]="option">{{ option }}</option>
         }
-      </datalist>
+      </select>
     </div>
   </div>
 
