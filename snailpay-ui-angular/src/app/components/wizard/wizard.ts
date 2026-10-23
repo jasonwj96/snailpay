@@ -9,7 +9,7 @@ import { WizardStep } from '../../models/Wizard.models';
 })
 export class WizardComponent {
   readonly steps = input.required<readonly WizardStep[]>();
-  readonly currentStepIndex = signal(0);
+  readonly currentStepIndex = signal(1);
   readonly currentStepName = computed(() => this.steps()[this.currentStepIndex()]?.id ?? '');
   readonly currentStepComponent = computed(() => this.steps()[this.currentStepIndex()]);
 
