@@ -1,5 +1,3 @@
-import { Service } from '@angular/core';
-
 import { Injectable, inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
@@ -8,7 +6,9 @@ import {
   CustomerRegistrationResponse,
 } from '../models/Registration.models';
 
-@Service()
+@Injectable({
+  providedIn: 'root',
+})
 export class CustomerRegistrationService {
   private readonly http = inject(HttpClient);
   private readonly baseUrl = '/api/customers';
