@@ -1,15 +1,11 @@
 <div class="flex flex-row items-center gap-2 mb-6" role="list" aria-label="Progress">
-  @for (step of steps(); track step.id) {
-    <div
-      role="listitem"
-      [attr.aria-current]="$index === currentStepIndex() ? 'step' : null"
-      class="flex-1 h-1 rounded-sm transition-colors"
-      [class.bg-primary]="$index <= currentStepIndex()"
-      [class.bg-border]="$index > currentStepIndex()"
-    ></div>
+  @for (step of steps(); track step.id; let i = $index) {
+  <div role="listitem" [attr.aria-current]="i === currentStepIndex() ? 'step' : null"
+    class="flex-1 h-1 rounded-sm transition-colors" [class.bg-primary]="i <= currentStepIndex()"
+    [class.bg-border]="i > currentStepIndex()"></div>
   }
 </div>
 
-@if (currentStep(); as current) {
-  <ng-container *ngComponentOutlet="current.component" />
+@if (currentStepComponent(); as current) {
+<ng-container *ngComponentOutlet="current.component" />
 }

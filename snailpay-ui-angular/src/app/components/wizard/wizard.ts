@@ -1,4 +1,4 @@
-import { Component, computed, input, linkedSignal, output } from '@angular/core';
+import { Component, computed, input, signal } from '@angular/core';
 import { NgComponentOutlet } from '@angular/common';
 import { WizardStep } from '../../models/Wizard.models';
 
@@ -9,24 +9,15 @@ import { WizardStep } from '../../models/Wizard.models';
 })
 export class WizardComponent {
   readonly steps = input.required<readonly WizardStep[]>();
-  readonly initialStepId = input<string>();
-  readonly completed = output<void>();
+  readonly currentStepIndex = signal(0);
+  readonly currentStepName = computed(() => this.steps()[this.currentStepIndex()]?.id ?? '');
+  readonly currentStepComponent = computed(() => this.steps()[this.currentStepIndex()]);
 
-  private readonly _currentStepIndex = linkedSignal(() => {
-    const startId = this.initialStepId();
-    const startIndex = startId ? this.steps().findIndex(step => step.id === startId) : 0;
-    return Math.max(startIndex, 0);
-  });
-
-  readonly currentStepIndex = this._currentStepIndex.asReadonly();
-  readonly currentStep = computed(() => this.steps()[this._currentStepIndex()]);
+  goToPreviousStep(): void {
+    this.currentStepIndex.update((index) => Math.max(0, index - 1));
+  }
 
   goToNextStep(): void {
-    const isLastStep = this._currentStepIndex() >= this.steps().length - 1;
-    if (isLastStep) {
-      this.completed.emit();
-    } else {
-      this._currentStepIndex.update(index => index + 1);
-    }
+    this.currentStepIndex.update((index) => Math.min(this.steps().length - 1, index + 1));
   }
 }
