@@ -1,43 +1,47 @@
-<div class="flex flex-col items-stretch gap-6">
-  <div class="flex flex-col items-start gap-2">
+<form class="flex flex-col items-stretch gap-6" (submit)="onSubmit($event)">
+  <div class="flex flex-col items-center gap-2">
     <h1 class="text-[22px] font-semibold text-text">Enter your code</h1>
-    <p class="text-sm text-text-muted">A 6 digit code has been sent to your cell phone</p>
+    <p class="text-sm text-text-muted">A 6 digit code has been sent to your phone via SMS</p>
   </div>
 
-  <form class="flex flex-col items-stretch gap-4" (submit)="submit($event)">
-    <div class="flex flex-row justify-center gap-2" role="group" aria-label="6 digit verification code">
-      @for (slot of slots; track slot) {
+  <div class="flex flex-col items-center gap-2">
+    <div class="flex flex-row gap-2" role="group" aria-label="6-digit verification code">
+      @for (index of digitIndices; track index) {
       <input #digitInput
-        class="flex-1 min-w-0 max-w-[56px] h-14 text-center text-xl font-semibold bg-bg border border-border rounded-sm text-text outline-none transition-colors focus:border-primary"
-        type="text" inputmode="numeric" pattern="[0-9]*" [attr.autocomplete]="slot === 0 ? 'one-time-code' : 'off'"
-        [attr.aria-label]="'Digit ' + (slot + 1) + ' of 6'" (input)="onInput($event, slot)"
-        (keydown)="onKeydown($event, slot)" (paste)="onPaste($event, slot)" (focus)="selectContent($event)" />
+        class="w-11 h-14 sm:w-12 text-center text-xl font-semibold bg-bg border rounded-sm text-text outline-none transition-colors focus:border-primary"
+        [class.border-border]="!errorMessage()" [class.border-red-500]="errorMessage()" type="text" inputmode="numeric"
+        pattern="[0-9]*" autocomplete="one-time-code" [attr.aria-label]="'Digit ' + (index + 1) + ' of 6'"
+        [value]="digits()[index]" (input)="onInput(index, $event)" (keydown)="onKeydown(index, $event)"
+        (paste)="onPaste($event)" (focus)="onFocus($event)" />
       }
     </div>
 
-    @if (error()) {
-    <p class="text-xs text-red-500" role="alert">{{ error() }}</p>
+    @if (errorMessage()) {
+    <p class="text-xs text-red-500" role="alert">{{ errorMessage() }}</p>
     }
+    @if (infoMessage()) {
+    <p class="text-xs text-text-muted" role="status">{{ infoMessage() }}</p>
+    }
+  </div>
 
-    <p class="text-xs text-text-muted">
-      Didn't receive the code?
-      @if (secondsLeft() > 0) {
-      <span>Resend in {{ timerLabel() }}</span>
-      } @else {
-      <button type="button"
-        class="p-0 bg-transparent border-none text-xs text-primary cursor-pointer hover:underline disabled:opacity-50 disabled:cursor-not-allowed"
-        [disabled]="sending()" (click)="sendCode()">
-        Resend
-      </button>
-      }
-    </p>
+  <p class="text-xs text-text-muted text-center">
+    Didn't receive the code?
+    @if (canResend()) {
+    <button type="button" class="text-primary hover:underline cursor-pointer" (click)="resend()">
+      Resend
+    </button>
+    } @else if (sending()) {
+    <span>Sending…</span>
+    } @else {
+    <span>Resend in {{ countdownLabel() }}</span>
+    }
+  </p>
 
-    <div class="flex justify-end">
-      <button
-        class="px-8 py-3 bg-primary text-white border-none rounded-sm text-sm font-medium cursor-pointer transition-colors hover:bg-primary-dark disabled:opacity-50 disabled:cursor-not-allowed"
-        type="submit" [disabled]="!isComplete() || verifying()">
-        {{ verifying() ? 'Verifying…' : 'Verify' }}
-      </button>
-    </div>
-  </form>
-</div>
+  <div class="flex justify-end">
+    <button
+      class="px-8 py-3 bg-primary text-white border-none rounded-sm text-sm font-medium cursor-pointer transition-colors hover:bg-primary-dark disabled:opacity-50 disabled:cursor-not-allowed"
+      type="submit" [disabled]="!isCodeComplete() || submitting()">
+      {{ submitting() ? 'Verifying…' : 'Submit' }}
+    </button>
+  </div>
+</form>

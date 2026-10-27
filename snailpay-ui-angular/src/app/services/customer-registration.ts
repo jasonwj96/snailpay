@@ -21,9 +21,7 @@ export class CustomerRegistrationService {
     return this.http.post<void>(`/api/email-verification/${externalId}`, {});
   }
 
-  checkVerificationStatus(
-    externalId: string
-  ): Observable<{ emailVerified: boolean; phoneVerified: boolean }> {
+  checkVerificationStatus(externalId: string): Observable<{ emailVerified: boolean; phoneVerified: boolean }> {
     return this.http.get<{ emailVerified: boolean; phoneVerified: boolean }>(
       `${this.baseUrl}/${externalId}/verification-status`
     );
