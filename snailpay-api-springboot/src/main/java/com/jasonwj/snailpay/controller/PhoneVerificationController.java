@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.*;
 import reactor.core.publisher.Mono;
 
 @RestController
-@RequestMapping("/customers/{externalId}/phone-verification")
+@RequestMapping("/phone-verification/{externalId}/")
 @RequiredArgsConstructor
 public class PhoneVerificationController {
 
