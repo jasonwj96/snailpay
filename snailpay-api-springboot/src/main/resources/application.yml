@@ -11,3 +11,7 @@ spring:
       hibernate:
         format_sql: true
     open-in-view: false
+
+snailpay:
+  verification:
+    hmac-secret: ${VERIFICATION_HMAC_SECRET}
