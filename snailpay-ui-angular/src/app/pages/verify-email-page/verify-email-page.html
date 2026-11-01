@@ -1,0 +1,35 @@
+<div class="flex flex-col items-center justify-center min-h-screen bg-bg p-4">
+  <div class="w-full max-w-[560px] p-8 bg-surface border border-border rounded-lg">
+    <div class="flex flex-col items-stretch gap-6">
+      @switch (state()) {
+        @case ('verifying') {
+          <div class="flex flex-col items-start gap-2">
+            <h1 class="text-[22px] font-semibold text-text">Verifying your email…</h1>
+            <p class="text-sm text-text-muted">This only takes a moment.</p>
+          </div>
+        }
+        @case ('success') {
+          <div class="flex flex-col items-start gap-2">
+            <h1 class="text-[22px] font-semibold text-text">Email verified</h1>
+            <p class="text-sm text-green-600" role="status">✓ Your email address is confirmed.</p>
+            <p class="text-sm text-text-muted">
+              You can close this tab and go back to your registration. It will continue
+              automatically.
+            </p>
+          </div>
+        }
+        @case ('error') {
+          <div class="flex flex-col items-start gap-2">
+            <h1 class="text-[22px] font-semibold text-text">This link isn't valid</h1>
+            <p class="text-sm text-red-500" role="alert">
+              The link is invalid, expired, or has been replaced by a newer one.
+            </p>
+            <p class="text-sm text-text-muted">
+              Go back to your registration and choose “Resend” to get a new link.
+            </p>
+          </div>
+        }
+      }
+    </div>
+  </div>
+</div>

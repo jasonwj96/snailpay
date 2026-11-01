@@ -18,12 +18,14 @@ export class CustomerRegistrationService {
   }
 
   sendEmailVerification(externalId: string): Observable<void> {
-    return this.http.post<void>(`/api/email-verification/${externalId}`, {});
+    return this.http.post<void>(`${this.baseUrl}/${externalId}/email-verification/send`, {});
   }
 
-  checkVerificationStatus(externalId: string): Observable<{ emailVerified: boolean; phoneVerified: boolean }> {
+  checkVerificationStatus(
+    externalId: string,
+  ): Observable<{ emailVerified: boolean; phoneVerified: boolean }> {
     return this.http.get<{ emailVerified: boolean; phoneVerified: boolean }>(
-      `${this.baseUrl}/${externalId}/verification-status`
+      `${this.baseUrl}/${externalId}/verification-status`,
     );
   }
 
@@ -33,5 +35,9 @@ export class CustomerRegistrationService {
 
   verifyPhoneCode(externalId: string, code: string): Observable<void> {
     return this.http.post<void>(`/api/phone-verification/${externalId}/verify`, { code });
+  }
+
+  confirmEmail(token: string): Observable<void> {
+    return this.http.post<void>('/api/email-verification/confirm', { token });
   }
 }

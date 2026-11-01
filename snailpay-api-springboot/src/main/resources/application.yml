@@ -4,14 +4,24 @@ spring:
     username: ${POSTGRES_USER}
     password: ${POSTGRES_PASSWORD}
 
-  jpa:
-    hibernate:
-      ddl-auto: validate
+  flyway:
+    enabled: true
+    url: jdbc:postgresql://${POSTGRES_HOST}:${POSTGRES_PORT}/${POSTGRES_DB}
+    user: ${POSTGRES_USER}
+    password: ${POSTGRES_PASSWORD}
+
+  mail:
+    host: ${MAIL_HOST}
+    port: ${MAIL_PORT:587}
+    username: ${MAIL_USERNAME}
+    password: ${MAIL_PASSWORD}
     properties:
-      hibernate:
-        format_sql: true
-    open-in-view: false
+      mail.smtp.auth: true
+      mail.smtp.starttls.enable: true
 
 snailpay:
+  frontend-base-url: ${FRONTEND_BASE_URL:http://localhost:4200}
   verification:
     hmac-secret: ${VERIFICATION_HMAC_SECRET}
+  mail:
+    from: no-reply@snailpay.com

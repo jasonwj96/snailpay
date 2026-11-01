@@ -6,6 +6,7 @@ import { WizardStep } from '../../models/Wizard.models';
 import { RegistrationStateService } from '../../services/registration-state-service';
 import { PersonalInfoStepComponent } from '../../components/personal-info-step/personal-info-step';
 import { PhoneVerificationStep } from '../../components/phone-verification-step/phone-verification-step';
+import { VerifyEmailStepComponent } from '../../components/verify-email-step/verify-email-step';
 
 @Component({
   selector: 'app-registerpage',
@@ -18,6 +19,7 @@ export class RegisterPage {
 
   protected readonly steps: readonly WizardStep[] = [
     { id: 'personal-info', component: PersonalInfoStepComponent },
+    { id: 'verify-email', component: VerifyEmailStepComponent },
     { id: 'phone-verification', component: PhoneVerificationStep },
     { id: 'kyc', component: KycStepComponent },
   ];

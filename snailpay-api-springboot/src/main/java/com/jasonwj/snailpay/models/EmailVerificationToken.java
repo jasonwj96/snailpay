@@ -1,32 +1,38 @@
 package com.jasonwj.snailpay.models;
 
-import jakarta.persistence.*;
-import org.hibernate.annotations.CreationTimestamp;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.annotation.Id;
+import org.springframework.data.relational.core.mapping.Column;
+import org.springframework.data.relational.core.mapping.Table;
 
 import java.time.Instant;
 import java.util.UUID;
 
-@Entity
-@Table(name = "email_verification_tokens")
-public class EmailVerificationToken  {
+@Table("email_verification_tokens")
+@Getter
+@Setter
+@NoArgsConstructor
+public class EmailVerificationToken {
 
     @Id
-    @Column(name = "id", updatable = false, nullable = false)
-    public UUID id;
+    private UUID id;
 
-    @Column(name = "customer_id", nullable = false, updatable = false)
-    public UUID customerId;
+    @Column("customer_id")
+    private UUID customerId;
 
-    @Column(name = "token_hash", nullable = false, updatable = false)
-    public String tokenHash;
+    @Column("token_hash")
+    private String tokenHash;
 
-    @CreationTimestamp
-    @Column(name = "created_at", nullable = false, updatable = false)
-    public Instant createdAt;
+    @CreatedDate
+    @Column("created_at")
+    private Instant createdAt;
 
-    @Column(name = "expires_at", nullable = false, updatable = false)
-    public Instant expiresAt;
+    @Column("expires_at")
+    private Instant expiresAt;
 
-    @Column(name = "verified_at")
-    public Instant verifiedAt;
+    @Column("verified_at")
+    private Instant verifiedAt;
 }

@@ -1,0 +1,67 @@
+<div class="flex flex-col items-stretch gap-6">
+  <div class="flex items-center justify-center w-full h-[150px]">
+    <img src="/snailpay-logo-full.svg" width="175" height="150" alt="Snailpay logo" />
+  </div>
+
+  <div class="flex flex-col items-start gap-2">
+    <h1 class="text-[22px] font-semibold text-text">Check your email</h1>
+    <p class="text-sm text-text-muted">
+      We sent a verification link to
+      @if (email()) {
+        <span class="font-medium text-text">{{ email() }}</span
+        >.
+      } @else {
+        your email address.
+      }
+      Click the link to continue.
+    </p>
+  </div>
+
+  <div class="flex flex-col items-start gap-2">
+    @if (verified()) {
+      <p class="text-sm text-green-600" role="status">✓ Email verified</p>
+    } @else {
+      <p class="flex items-center gap-2 text-sm text-text-muted" role="status">
+        <span class="inline-block w-2 h-2 rounded-full bg-primary animate-pulse"></span>
+        Waiting for you to click the link…
+      </p>
+    }
+
+    @if (errorMessage()) {
+      <p class="text-xs text-red-500" role="alert">{{ errorMessage() }}</p>
+    }
+    @if (infoMessage()) {
+      <p class="text-xs text-text-muted" role="status">{{ infoMessage() }}</p>
+    }
+  </div>
+
+  @if (!verified()) {
+    <p class="text-xs text-text-muted">
+      Didn't receive the email? Check your spam folder or
+      @if (canResend()) {
+        <button
+          type="button"
+          class="text-primary hover:underline cursor-pointer"
+          (click)="resend()"
+        >
+          Resend
+        </button>
+      } @else if (sending()) {
+        <span>Sending…</span>
+      } @else {
+        <span>resend in {{ countdownLabel() }}</span>
+      }
+    </p>
+  }
+
+  <div class="flex justify-end">
+    <button
+      class="px-8 py-3 bg-primary text-white border-none rounded-sm text-sm font-medium cursor-pointer transition-colors hover:bg-primary-dark disabled:opacity-50 disabled:cursor-not-allowed"
+      type="button"
+      [disabled]="!verified()"
+      (click)="continueToNextStep()"
+    >
+      Continue
+    </button>
+  </div>
+</div>
