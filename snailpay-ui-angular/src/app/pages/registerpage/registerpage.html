@@ -1,5 +1,26 @@
-<div class="flex flex-col items-center justify-center min-h-screen bg-bg p-4">
-  <div class="w-full max-w-[1040px] p-8 bg-surface border border-border rounded-lg">
-    <app-wizard [steps]="steps" (completed)="onCompleted()"></app-wizard>
-  </div>
+<!--
+  Split-screen register page.
+  Needs `pt-16` on <main> (navbar offset), so the page itself is 100dvh - 4rem tall.
+  The wizard side scrolls on its own; the image side never moves.
+-->
+<div class="flex h-[calc(100dvh-4rem)] w-full bg-bg">
+  <!-- Wizard: full width on mobile, 60% from lg up -->
+  <section class="flex w-full flex-col overflow-y-auto lg:w-[60%]">
+    <!-- my-auto centers short steps vertically and falls back to top-aligned
+         (scrollable) when a step is taller than the screen -->
+    <div class="my-auto w-full px-6 py-10 sm:px-12 lg:px-16">
+      <app-wizard [steps]="steps" (completed)="onCompleted()"></app-wizard>
+    </div>
+  </section>
+
+  <!-- Illustration: hidden on mobile, 40% from lg up, full height -->
+  <!-- object-contain shows the whole picture (nothing cropped). Set the panel
+       background to the image's own background color so the edges blend in. -->
+  <aside class="relative hidden bg-surface lg:block lg:w-[40%]" aria-hidden="true">
+    <img
+      src="/signup-illustration.png"
+      alt=""
+      class="absolute inset-0 h-full w-full object-cover object-center"
+    />
+  </aside>
 </div>

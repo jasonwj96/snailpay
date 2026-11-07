@@ -18,10 +18,10 @@ export class RegisterPage {
   private readonly router = inject(Router);
 
   protected readonly steps: readonly WizardStep[] = [
-    { id: 'personal-info', component: PersonalInfoStepComponent },
-    { id: 'verify-email', component: VerifyEmailStepComponent },
-    { id: 'phone-verification', component: PhoneVerificationStep },
-    { id: 'kyc', component: KycStepComponent },
+    { id: 'personal-info', component: PersonalInfoStepComponent, label: 'General Information' },
+    { id: 'verify-email', component: VerifyEmailStepComponent , label: 'Email Verification'},
+    { id: 'phone-verification', component: PhoneVerificationStep , label: 'Phone Verification'},
+    { id: 'kyc', component: KycStepComponent , label: 'Additional Information'},
   ];
 
   protected onCompleted(): void {
