@@ -1,0 +1,41 @@
+<div class="flex flex-col items-start gap-1">
+  <label class="text-[13px] font-medium text-text">{{ label() }}</label>
+  @if (hint()) {
+    <p class="text-xs text-text-muted">{{ hint() }}</p>
+  }
+
+  <div class="flex flex-row items-center gap-3 w-full">
+    @if (state() !== 'uploading' && state() !== 'verifying') {
+      <label
+        class="px-4 py-2 bg-bg border border-border rounded-sm text-text text-sm cursor-pointer transition-colors hover:border-primary">
+        {{ state() === 'done' ? 'Replace file' : 'Choose file' }}
+        <input
+          class="sr-only"
+          type="file"
+          accept="image/jpeg,image/png,application/pdf"
+          (change)="onFileSelected($event)" />
+      </label>
+    }
+
+    @switch (state()) {
+      @case ('uploading') {
+        <div class="flex flex-col gap-1 flex-1">
+          <div class="w-full h-2 bg-border rounded-sm overflow-hidden">
+            <div class="h-2 bg-primary transition-all" [style.width.%]="progress()"></div>
+          </div>
+          <p class="text-xs text-text-muted">Uploading {{ fileName() }}… {{ progress() }}%</p>
+        </div>
+      }
+      @case ('verifying') {
+        <p class="text-xs text-text-muted" role="status">Checking your file…</p>
+      }
+      @case ('done') {
+        <p class="text-sm text-green-600" role="status">✓ Uploaded</p>
+      }
+    }
+  </div>
+
+  @if (errorMessage()) {
+    <p class="text-xs text-red-500" role="alert">{{ errorMessage() }}</p>
+  }
+</div>

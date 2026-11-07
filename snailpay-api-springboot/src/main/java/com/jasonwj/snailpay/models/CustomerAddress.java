@@ -1,63 +1,63 @@
 package com.jasonwj.snailpay.models;
 
 import com.jasonwj.snailpay.enums.AddressType;
-import com.jasonwj.snailpay.enums.CountryCode;
-import jakarta.persistence.*;
-import org.hibernate.annotations.CreationTimestamp;
-import org.hibernate.annotations.JdbcType;
-import org.hibernate.annotations.UpdateTimestamp;
-import org.hibernate.type.descriptor.jdbc.CharJdbcType;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.annotation.Id;
+import org.springframework.data.annotation.LastModifiedDate;
+import org.springframework.data.relational.core.mapping.Column;
+import org.springframework.data.relational.core.mapping.Table;
 
 import java.time.Instant;
-import java.util.Locale;
 import java.util.UUID;
 
-@Entity
-@Table(name = "customer_addresses")
-public class CustomerAddress  {
+// R2DBC version. The CHAR(2) country code maps to a plain String here.
+// If your AddressType enum is still in another package, fix the import above.
+@Table("customer_addresses")
+@Getter
+@Setter
+@NoArgsConstructor
+public class CustomerAddress {
 
     @Id
-    @Column(name = "id", updatable = false, nullable = false)
-    public UUID id;
+    private UUID id;
 
-    @Column(name = "customer_id", nullable = false, updatable = false)
-    public UUID customerId;
+    @Column("customer_id")
+    private UUID customerId;
 
-    @Enumerated(EnumType.STRING)
-    @Column(name = "address_type", nullable = false, updatable = false)
-    public AddressType addressType;
+    @Column("address_type")
+    private AddressType addressType;
 
-    @Column(name = "line1", nullable = false)
-    public String line1;
+    private String line1;
 
-    @Column(name = "line2")
-    public String line2;
+    private String line2;
 
-    @Column(name = "city", nullable = false)
-    public String city;
+    private String city;
 
-    @Column(name = "state_province", nullable = false)
-    public String stateProvince;
+    @Column("state_province")
+    private String stateProvince;
 
-    @Column(name = "postal_code", nullable = false)
-    public String postalCode;
+    @Column("postal_code")
+    private String postalCode;
 
-    @Enumerated(EnumType.STRING)
-    @JdbcType(CharJdbcType.class)
-    @Column(name = "country_code", nullable = false)
-    public CountryCode countryCode;
+    @Column("country_code")
+    private String countryCode = "US";
 
-    @Column(name = "is_current", nullable = false)
-    public boolean isCurrent = true;
+    // Named "current", not "isCurrent": Spring Data would otherwise derive a
+    // confusing property name from the Lombok accessors.
+    @Column("is_current")
+    private boolean current = true;
 
-    @Column(name = "superseded_at")
-    public Instant supersededAt;
+    @Column("superseded_at")
+    private Instant supersededAt;
 
-    @CreationTimestamp
-    @Column(name = "created_at", nullable = false, updatable = false)
-    public Instant createdAt;
+    @CreatedDate
+    @Column("created_at")
+    private Instant createdAt;
 
-    @UpdateTimestamp
-    @Column(name = "updated_at", nullable = false)
-    public Instant updatedAt;
+    @LastModifiedDate
+    @Column("updated_at")
+    private Instant updatedAt;
 }

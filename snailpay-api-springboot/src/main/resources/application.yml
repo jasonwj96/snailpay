@@ -25,3 +25,9 @@ snailpay:
     hmac-secret: ${VERIFICATION_HMAC_SECRET}
   mail:
     from: no-reply@snailpay.com
+  kyc:
+    bucket: ${KYC_BUCKET}
+    region: ${AWS_REGION:us-east-1}
+    kms-key-arn: ${KYC_KMS_KEY_ARN}
+    tin-index-secret: ${KYC_TIN_INDEX_SECRET}
+    disclosure-version: "2026-11-02"

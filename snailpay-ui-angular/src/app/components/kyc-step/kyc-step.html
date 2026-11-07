@@ -1,1 +1,441 @@
-<p>kyc-step-component works!</p>
+<div class="flex flex-col items-stretch gap-6">
+  @if (submitted()) {
+    <div class="flex flex-col items-start gap-2">
+      <h1 class="text-[22px] font-semibold text-text">We're reviewing your information</h1>
+      <p class="text-sm text-text-muted">
+        Thanks. We're verifying your identity, which usually takes a few minutes. We'll email you as
+        soon as your account is approved, or if we need anything else from you.
+      </p>
+    </div>
+    <div class="flex justify-end">
+      <button
+        class="px-8 py-3 bg-primary text-white border-none rounded-sm text-sm font-medium cursor-pointer transition-colors hover:bg-primary-dark"
+        type="button"
+        (click)="finish()"
+      >
+        Finish
+      </button>
+    </div>
+  } @else {
+    <form class="flex flex-col items-stretch gap-6" (submit)="onSubmit($event)" novalidate>
+      <!-- Header + legal notice, full width -->
+      <div class="flex flex-col items-start gap-2">
+        <h1 class="text-[22px] font-semibold text-text">Verify your identity</h1>
+        <p class="text-sm text-text-muted">
+          Federal law requires us to collect and verify this information before opening your
+          account.
+        </p>
+      </div>
+
+      <!-- USA PATRIOT Act customer identification notice (31 CFR 1020.220(a)(5)) -->
+      <div class="px-4 py-3 bg-bg border border-border border-l-2 border-l-primary rounded-sm">
+        <p class="text-[13px] font-medium text-text">
+          Important information about procedures for opening a new account
+        </p>
+        <p class="mt-1 text-xs text-text-muted">
+          To help the government fight the funding of terrorism and money laundering activities,
+          Federal law requires all financial institutions to obtain, verify, and record information
+          that identifies each person who opens an account. What this means for you: when you open
+          an account, we will ask for your name, address, date of birth, and other information that
+          will allow us to identify you. We may also ask to see your driver's license or other
+          identifying documents.
+        </p>
+      </div>
+
+      <!-- Two columns on large screens: your details on the left, documents + confirm on the right.
+           On small screens everything stacks in the same order. -->
+      <div class="grid grid-cols-1 gap-8 lg:grid-cols-[minmax(0,1fr)_minmax(0,400px)]">
+        <!-- LEFT: information to enter -->
+        <div class="flex flex-col items-stretch gap-6 min-w-0">
+          <!-- 1. Residency and tax ID -->
+          <section class="flex flex-col items-stretch gap-4">
+            <h2 class="flex items-center gap-2 text-sm font-semibold text-text">
+              <span
+                class="flex h-6 w-6 items-center justify-center rounded-full bg-primary text-xs text-white"
+                >1</span
+              >
+              Residency and tax ID
+            </h2>
+
+            <div class="grid grid-cols-1 gap-4 sm:grid-cols-2">
+              <div class="flex flex-col items-start gap-1">
+                <label for="kyc-residency" class="text-[13px] font-medium text-text"
+                  >Residency status</label
+                >
+                <select
+                  id="kyc-residency"
+                  class="w-full min-w-0 px-3 py-2 bg-bg border border-border rounded-sm text-text text-sm outline-none transition-colors focus:border-primary"
+                  [formField]="kycForm.residencyStatus"
+                >
+                  <option value="">Select…</option>
+                  <option value="US_CITIZEN">U.S. citizen</option>
+                  <option value="US_PERMANENT_RESIDENT">U.S. permanent resident</option>
+                  <option value="NON_US_PERSON">Non-U.S. person</option>
+                </select>
+                @if (submitAttempted() && errors()['residencyStatus']) {
+                  <p class="text-xs text-red-500">{{ errors()['residencyStatus'] }}</p>
+                }
+              </div>
+
+              <div class="flex flex-col items-start gap-1">
+                <label for="kyc-citizenship" class="text-[13px] font-medium text-text"
+                  >Country of citizenship</label
+                >
+                <input
+                  id="kyc-citizenship"
+                  class="w-full min-w-0 px-3 py-2 bg-bg border border-border rounded-sm text-text text-sm uppercase outline-none transition-colors focus:border-primary placeholder:text-text-muted placeholder:normal-case"
+                  type="text"
+                  placeholder="US"
+                  [formField]="kycForm.citizenshipCountry"
+                />
+                @if (submitAttempted() && errors()['citizenshipCountry']) {
+                  <p class="text-xs text-red-500">{{ errors()['citizenshipCountry'] }}</p>
+                }
+              </div>
+
+              @if (!isUsPerson() && model().residencyStatus === 'NON_US_PERSON') {
+                <div class="flex flex-col items-start gap-1">
+                  <label for="kyc-tin-type" class="text-[13px] font-medium text-text"
+                    >U.S. tax ID</label
+                  >
+                  <select
+                    id="kyc-tin-type"
+                    class="w-full min-w-0 px-3 py-2 bg-bg border border-border rounded-sm text-text text-sm outline-none transition-colors focus:border-primary"
+                    [formField]="kycForm.tinType"
+                  >
+                    <option value="ITIN">I have an ITIN</option>
+                    <option value="SSN">I have a Social Security number</option>
+                    <option value="NONE">I don't have a U.S. tax ID</option>
+                  </select>
+                </div>
+              }
+
+              @if (effectiveTinType() !== 'NONE' && model().residencyStatus) {
+                <div class="flex flex-col items-start gap-1">
+                  <label for="kyc-tin" class="text-[13px] font-medium text-text">
+                    {{ effectiveTinType() === 'ITIN' ? 'ITIN' : 'Social Security number' }}
+                  </label>
+                  <input
+                    id="kyc-tin"
+                    class="w-full min-w-0 px-3 py-2 bg-bg border border-border rounded-sm text-text text-sm outline-none transition-colors focus:border-primary placeholder:text-text-muted"
+                    type="password"
+                    inputmode="numeric"
+                    autocomplete="off"
+                    placeholder="9 digits"
+                    [formField]="kycForm.tin"
+                  />
+                  <p class="text-xs text-text-muted">
+                    Encrypted before it is stored. We never show it back to you.
+                  </p>
+                  @if (submitAttempted() && errors()['tin']) {
+                    <p class="text-xs text-red-500">{{ errors()['tin'] }}</p>
+                  }
+                </div>
+              }
+            </div>
+          </section>
+
+          <!-- 2. Residential address -->
+          <section class="flex flex-col items-stretch gap-4 border-t border-border pt-6">
+            <h2 class="flex items-center gap-2 text-sm font-semibold text-text">
+              <span
+                class="flex h-6 w-6 items-center justify-center rounded-full bg-primary text-xs text-white"
+                >2</span
+              >
+              Residential address
+            </h2>
+
+            <div class="grid grid-cols-1 gap-4 sm:grid-cols-6">
+              <div class="flex flex-col items-start gap-1 sm:col-span-4">
+                <label for="kyc-line1" class="text-[13px] font-medium text-text"
+                  >Street address</label
+                >
+                <input
+                  id="kyc-line1"
+                  class="w-full min-w-0 px-3 py-2 bg-bg border border-border rounded-sm text-text text-sm outline-none transition-colors focus:border-primary placeholder:text-text-muted"
+                  type="text"
+                  autocomplete="address-line1"
+                  placeholder="123 Main St"
+                  [formField]="kycForm.line1"
+                />
+                @if (submitAttempted() && errors()['line1']) {
+                  <p class="text-xs text-red-500">{{ errors()['line1'] }}</p>
+                }
+              </div>
+
+              <div class="flex flex-col items-start gap-1 sm:col-span-2">
+                <label for="kyc-line2" class="text-[13px] font-medium text-text">Apt, suite</label>
+                <input
+                  id="kyc-line2"
+                  class="w-full min-w-0 px-3 py-2 bg-bg border border-border rounded-sm text-text text-sm outline-none transition-colors focus:border-primary placeholder:text-text-muted"
+                  type="text"
+                  autocomplete="address-line2"
+                  placeholder="Optional"
+                  [formField]="kycForm.line2"
+                />
+              </div>
+
+              <div class="flex flex-col items-start gap-1 sm:col-span-3">
+                <label for="kyc-city" class="text-[13px] font-medium text-text">City</label>
+                <input
+                  id="kyc-city"
+                  class="w-full min-w-0 px-3 py-2 bg-bg border border-border rounded-sm text-text text-sm outline-none transition-colors focus:border-primary placeholder:text-text-muted"
+                  type="text"
+                  autocomplete="address-level2"
+                  [formField]="kycForm.city"
+                />
+                @if (submitAttempted() && errors()['city']) {
+                  <p class="text-xs text-red-500">{{ errors()['city'] }}</p>
+                }
+              </div>
+
+              <div class="flex flex-col items-start gap-1 sm:col-span-3">
+                <label for="kyc-state" class="text-[13px] font-medium text-text">{{
+                  isUsAddress() ? 'State' : 'State / province'
+                }}</label>
+                @if (isUsAddress()) {
+                  <select
+                    id="kyc-state"
+                    class="w-full min-w-0 px-3 py-2 bg-bg border border-border rounded-sm text-text text-sm outline-none transition-colors focus:border-primary"
+                    autocomplete="address-level1"
+                    [formField]="kycForm.stateProvince"
+                  >
+                    <option value="">Select…</option>
+                    @for (state of usStateList; track state.code) {
+                      <option [value]="state.code">{{ state.name }}</option>
+                    }
+                  </select>
+                } @else {
+                  <input
+                    id="kyc-state"
+                    class="w-full min-w-0 px-3 py-2 bg-bg border border-border rounded-sm text-text text-sm outline-none transition-colors focus:border-primary"
+                    type="text"
+                    autocomplete="address-level1"
+                    [formField]="kycForm.stateProvince"
+                  />
+                }
+                @if (submitAttempted() && errors()['stateProvince']) {
+                  <p class="text-xs text-red-500">{{ errors()['stateProvince'] }}</p>
+                }
+              </div>
+
+              <div class="flex flex-col items-start gap-1 sm:col-span-3">
+                <label for="kyc-postal" class="text-[13px] font-medium text-text">{{
+                  isUsAddress() ? 'ZIP code' : 'Postal code'
+                }}</label>
+                <input
+                  id="kyc-postal"
+                  class="w-full min-w-0 px-3 py-2 bg-bg border border-border rounded-sm text-text text-sm outline-none transition-colors focus:border-primary placeholder:text-text-muted"
+                  type="text"
+                  autocomplete="postal-code"
+                  [formField]="kycForm.postalCode"
+                />
+                @if (submitAttempted() && errors()['postalCode']) {
+                  <p class="text-xs text-red-500">{{ errors()['postalCode'] }}</p>
+                }
+              </div>
+
+              <div class="flex flex-col items-start gap-1 sm:col-span-3">
+                <label for="kyc-country" class="text-[13px] font-medium text-text">Country</label>
+                <input
+                  id="kyc-country"
+                  class="w-full min-w-0 px-3 py-2 bg-bg border border-border rounded-sm text-text text-sm uppercase outline-none transition-colors focus:border-primary"
+                  type="text"
+                  autocomplete="country"
+                  [formField]="kycForm.countryCode"
+                />
+                @if (submitAttempted() && errors()['countryCode']) {
+                  <p class="text-xs text-red-500">{{ errors()['countryCode'] }}</p>
+                }
+              </div>
+            </div>
+          </section>
+
+          <!-- 3. Identity document details -->
+          <section class="flex flex-col items-stretch gap-4 border-t border-border pt-6">
+            <h2 class="flex items-center gap-2 text-sm font-semibold text-text">
+              <span
+                class="flex h-6 w-6 items-center justify-center rounded-full bg-primary text-xs text-white"
+                >3</span
+              >
+              Identity document
+            </h2>
+
+            <div class="grid grid-cols-1 gap-4 sm:grid-cols-2">
+              <div class="flex flex-col items-start gap-1">
+                <label for="kyc-id-type" class="text-[13px] font-medium text-text">ID type</label>
+                <select
+                  id="kyc-id-type"
+                  class="w-full min-w-0 px-3 py-2 bg-bg border border-border rounded-sm text-text text-sm outline-none transition-colors focus:border-primary"
+                  [formField]="kycForm.idDocumentType"
+                >
+                  <option value="">Select…</option>
+                  <option value="DRIVERS_LICENSE">Driver's license</option>
+                  <option value="STATE_ID">State ID card</option>
+                  <option value="PASSPORT">Passport</option>
+                  <option value="PERMANENT_RESIDENT_CARD">Permanent resident card</option>
+                </select>
+                @if (submitAttempted() && errors()['idDocumentType']) {
+                  <p class="text-xs text-red-500">{{ errors()['idDocumentType'] }}</p>
+                }
+              </div>
+
+              <div class="flex flex-col items-start gap-1">
+                <label for="kyc-id-number" class="text-[13px] font-medium text-text"
+                  >ID number</label
+                >
+                <input
+                  id="kyc-id-number"
+                  class="w-full min-w-0 px-3 py-2 bg-bg border border-border rounded-sm text-text text-sm outline-none transition-colors focus:border-primary"
+                  type="text"
+                  autocomplete="off"
+                  [formField]="kycForm.idNumber"
+                />
+                @if (submitAttempted() && errors()['idNumber']) {
+                  <p class="text-xs text-red-500">{{ errors()['idNumber'] }}</p>
+                }
+              </div>
+
+              <div class="flex flex-col items-start gap-1">
+                <label for="kyc-id-expiry" class="text-[13px] font-medium text-text"
+                  >Expiration date</label
+                >
+                <input
+                  id="kyc-id-expiry"
+                  class="w-full min-w-0 px-3 py-2 bg-bg border border-border rounded-sm text-text text-sm outline-none transition-colors focus:border-primary"
+                  type="date"
+                  [formField]="kycForm.idExpirationDate"
+                />
+                @if (submitAttempted() && errors()['idExpirationDate']) {
+                  <p class="text-xs text-red-500">{{ errors()['idExpirationDate'] }}</p>
+                }
+              </div>
+
+              <div class="flex flex-col items-start gap-1">
+                <label for="kyc-id-country" class="text-[13px] font-medium text-text"
+                  >Issued in (country)</label
+                >
+                <input
+                  id="kyc-id-country"
+                  class="w-full min-w-0 px-3 py-2 bg-bg border border-border rounded-sm text-text text-sm uppercase outline-none transition-colors focus:border-primary"
+                  type="text"
+                  [formField]="kycForm.idIssuingCountry"
+                />
+                @if (submitAttempted() && errors()['idIssuingCountry']) {
+                  <p class="text-xs text-red-500">{{ errors()['idIssuingCountry'] }}</p>
+                }
+              </div>
+
+              @if (needsIssuingState()) {
+                <div class="flex flex-col items-start gap-1">
+                  <label for="kyc-id-state" class="text-[13px] font-medium text-text"
+                    >Issuing state</label
+                  >
+                  <select
+                    id="kyc-id-state"
+                    class="w-full min-w-0 px-3 py-2 bg-bg border border-border rounded-sm text-text text-sm outline-none transition-colors focus:border-primary"
+                    [formField]="kycForm.idIssuingState"
+                  >
+                    <option value="">Select…</option>
+                    @for (state of usStateList; track state.code) {
+                      <option [value]="state.code">{{ state.name }}</option>
+                    }
+                  </select>
+                  @if (submitAttempted() && errors()['idIssuingState']) {
+                    <p class="text-xs text-red-500">{{ errors()['idIssuingState'] }}</p>
+                  }
+                </div>
+              }
+            </div>
+          </section>
+        </div>
+
+        <!-- RIGHT: documents, confirmation and submit. Stays in view while the left side scrolls. -->
+        <aside
+          class="flex flex-col items-stretch gap-5 self-start min-w-0 p-5 border border-border rounded-md lg:sticky lg:top-6 lg:max-h-[calc(100vh-3rem)] lg:overflow-y-auto"
+        >
+          <div class="flex flex-col items-start gap-1">
+            <h2 class="flex items-center gap-2 text-sm font-semibold text-text">
+              <span
+                class="flex h-6 w-6 items-center justify-center rounded-full bg-primary text-xs text-white"
+                >4</span
+              >
+              Upload your ID
+            </h2>
+            <p class="text-xs text-text-muted">
+              JPEG, PNG or PDF, up to 10 MB each. Make sure all four corners and the text are
+              clearly visible.
+            </p>
+          </div>
+
+          <div class="flex flex-col items-stretch gap-4">
+            <app-kyc-document-upload
+              documentType="GOVERNMENT_ID_FRONT"
+              [label]="
+                model().idDocumentType === 'PASSPORT' ? 'Passport photo page' : 'Front of ID'
+              "
+              [alreadyUploaded]="isUploaded('GOVERNMENT_ID_FRONT')"
+              (uploaded)="onDocumentUploaded($event)"
+            />
+
+            @if (needsIdBack()) {
+              <app-kyc-document-upload
+                documentType="GOVERNMENT_ID_BACK"
+                label="Back of ID"
+                [alreadyUploaded]="isUploaded('GOVERNMENT_ID_BACK')"
+                (uploaded)="onDocumentUploaded($event)"
+              />
+            }
+
+            <app-kyc-document-upload
+              documentType="PROOF_OF_ADDRESS"
+              label="Proof of address (optional)"
+              hint="A recent utility bill or bank statement. Only needed if we ask for it."
+              [alreadyUploaded]="isUploaded('PROOF_OF_ADDRESS')"
+              (uploaded)="onDocumentUploaded($event)"
+            />
+
+            @if (submitAttempted() && errors()['documents']) {
+              <p class="text-xs text-red-500">{{ errors()['documents'] }}</p>
+            }
+          </div>
+
+          <!-- Acknowledgements -->
+          <div class="flex flex-col items-stretch gap-3 border-t border-border pt-5">
+            <label class="flex flex-row items-start gap-2 text-xs text-text-muted cursor-pointer">
+              <input class="mt-0.5" type="checkbox" [formField]="kycForm.cipNoticeAcknowledged" />
+              <span>I have read the identity verification notice above.</span>
+            </label>
+            <label class="flex flex-row items-start gap-2 text-xs text-text-muted cursor-pointer">
+              <input class="mt-0.5" type="checkbox" [formField]="kycForm.esignConsent" />
+              <span>
+                I agree to receive account disclosures and notices electronically, and I can access
+                them on this device.
+                <a href="/esign-consent" class="text-primary hover:underline">E-SIGN Consent</a>
+              </span>
+            </label>
+            <label class="flex flex-row items-start gap-2 text-xs text-text-muted cursor-pointer">
+              <input class="mt-0.5" type="checkbox" [formField]="kycForm.certificationAccepted" />
+              <span>I certify that the information I provided is true, correct and complete.</span>
+            </label>
+            @if (submitAttempted() && errors()['consents']) {
+              <p class="text-xs text-red-500">{{ errors()['consents'] }}</p>
+            }
+          </div>
+
+          @if (submitError()) {
+            <p class="text-xs text-red-500" role="alert">{{ submitError() }}</p>
+          }
+
+          <button
+            class="w-full py-3 bg-primary text-white border-none rounded-sm text-sm font-medium cursor-pointer transition-colors hover:bg-primary-dark disabled:opacity-50 disabled:cursor-not-allowed"
+            type="submit"
+            [disabled]="submitting()"
+          >
+            {{ submitting() ? 'Submitting…' : 'Submit for review' }}
+          </button>
+        </aside>
+      </div>
+    </form>
+  }
+</div>
